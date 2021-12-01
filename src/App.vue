@@ -1,0 +1,37 @@
+<template>
+  <div id="app">
+     <component :is="this.$route.meta.layout || 'div'">
+      <vue-confirm-dialog></vue-confirm-dialog>
+      <router-view></router-view>
+    </component>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'App',
+  components: {
+    
+  },
+  created(){
+    
+    this.$store.commit('setUser', JSON.parse(localStorage.getItem('user')))
+  },
+  mounted() {
+
+    //this.$store.commit('setUser', JSON.parse(localStorage.getItem('user')))
+    this.$store.dispatch({ type: 'getSettings'})
+  }
+}
+</script>
+
+<style>
+@import '/sass/styles.scss';
+#app {
+  font-family: 'Nunito Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #454b50;
+}
+</style>

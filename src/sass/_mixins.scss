@@ -1,0 +1,158 @@
+@mixin fontHeaderXL {
+    font-size: 184px;
+    font-weight: 100;
+    // text-align: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: $secondary-color;
+    // box-shadow: 0 0 2px $offwhite;
+}
+
+@mixin fontHeaderL {
+    font-size: 98px;
+    font-weight: 100;
+    // text-align: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: $secondary-color;
+    // box-shadow: 0 0 2px $offwhite;
+}
+
+@mixin fontHeaderM {
+    font-size: 82px;
+    font-weight: 100;
+    // text-align: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: $secondary-color;
+    // box-shadow: 0 0 2px $offwhite;
+}
+
+@mixin fontHeaderS {
+    font-size: 46px;
+    font-weight: 100;
+    // text-align: left;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: $secondary-color;
+    // box-shadow: 0 0 2px $offwhite;
+}
+
+@mixin flexColumns($cols) {
+    float: left;
+    padding: 0 0 0 0;
+    width: (100% / $cols);
+}
+
+@mixin flexRows($rows) {
+    float: left;
+    padding: 5%;
+    height: (100% / $rows);
+    width: 100%;
+}
+
+@mixin grid($cols, $mgn) {
+    float: left;
+    margin-right: $mgn;
+    margin-bottom: $mgn;
+    width: (100% / $cols);
+    &:nth-child(#{$cols}n) {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+@mixin formRows($arg...) {
+    @if length($arg) == 1 {
+        @media screen and (max-height: nth($arg, 1)) {
+            @content;
+        }
+    }
+    @if length($arg) == 2 {
+        @media screen and (max-height: nth($arg, 1)) and (min-height: nth($arg, 2)) {
+            @content;
+        }
+    }
+}
+
+@mixin formColumns($arg...) {
+    @if length($arg) == 1 {
+        @media screen and (max-width: nth($arg, 1)) {
+            @content;
+        }
+    }
+    @if length($arg) == 2 {
+        @media screen and (max-width: nth($arg, 1)) and (min-width: nth($arg, 2)) {
+            @content;
+        }
+    }
+}
+
+@mixin mobileMode($arg...) {
+    @media screen and (max-width: nth($arg, 1)) and (min-width: nth($arg, 2)) {
+        @content;
+    }
+}
+
+@mixin tabletMode($arg...) {
+    @media screen and (max-width: nth($arg, 1)) and (min-width: nth($arg, 2)) {
+        @content;
+    }
+}
+
+@mixin desktopMode($arg...) {
+    @media screen and (max-width: nth($arg, 1)) and (min-width: nth($arg, 2)) {
+        @content;
+    }
+}
+
+@mixin gridDays {
+    .grid-days {
+        display: grid;
+        grid-template-columns: 4fr repeat(7, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        }
+        
+        .days-title { grid-area: 1 / 1 / 2 / 2; }
+        .days-label { grid-area: 1 / 2 / 2 / 9; }
+        .days-chkbx { grid-area: 2 / 2 / 3 / 9; }
+}
+
+@mixin gridWeeks {
+    .parent {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        }
+        
+        .div1 { grid-area: 1 / 1 / 5 / 2; }
+        .div2 { grid-area: 1 / 2 / 5 / 3; }
+}
+
+@mixin gridRow {
+    .grid-row {
+        display: grid;
+        grid-template-columns: 4fr 7fr;
+        grid-template-rows: 1fr;
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        }
+        
+        .grid-title { grid-area: 1 / 1 / 2 / 2; }
+        .grid-form { grid-area: 1 / 2 / 2 / 3; }
+}
+
+@mixin gridCol {
+    .grid-col {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 1fr);
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        }
+        
+        .grid-title { grid-area: 1 / 1 / 2 / 3; }
+        .grid-form { grid-area: 2 / 1 / 3 / 3; }
+}
+
+

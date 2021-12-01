@@ -1,0 +1,57 @@
+definitions:
+  steps:
+    - step: &build
+        name: Build
+        image: node:14.5.0-alpine
+        caches:
+          - node
+        script:
+          - npm install
+          - npm run build
+        artifacts:
+          - dist/**
+    - set: &deleteOldFiles
+        name: Deleting Old Files
+        script:
+          - pipe: atlassian/ssh-run:0.2.4
+            variables:
+              SSH_USER: $USER
+              SERVER: $SERVER
+              COMMAND: 'rm -rf /var/www/html/*'
+              DEBUG: 'false'
+    - step: &uploadToSFTP
+        name: Upload Generated Files to SFTP
+        script:
+            - pipe: atlassian/sftp-deploy:0.5.7
+              variables:
+                USER: $SFTP_USERNAME
+                SERVER: $SFTP_SERVER
+                PASSWORD: $SFTP_PASSWORD
+                REMOTE_PATH: $STAGING_DIR
+                LOCAL_PATH: 'dist/*'
+                DELETE_FLAG: 'true'
+                DEBUG: 'true'
+                SSH_KEY: 'opt/atlassian/pipelines/agent/ssh/id_rsa'
+
+    - step: &uploadToSFTPProd
+        name: Upload Generated Files to SFTP
+        script:
+            - pipe: atlassian/sftp-deploy:0.5.7
+              variables:
+                USER: $SFTP_USERNAME
+                SERVER: $SFTP_SERVER
+                PASSWORD: $SFTP_PASSWORD
+                REMOTE_PATH: $PRODUCTION_DIR
+                LOCAL_PATH: 'dist/*'
+                DELETE_FLAG: 'true'
+                DEBUG: 'true'
+                SSH_KEY: 'opt/atlassian/pipelines/agent/ssh/id_rsa'
+
+pipelines:
+  branches:
+    staging:
+      - step: *build
+      - step: *uploadToSFTP
+    master:
+      - step: *build
+      - step: *uploadToSFTPProd
