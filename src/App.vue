@@ -14,13 +14,17 @@ export default {
     
   },
   created(){
-    
-    this.$store.commit('setUser', JSON.parse(localStorage.getItem('user')))
+    if (localStorage.getItem('user')){
+      this.$store.commit('setUser', JSON.parse(localStorage.getItem('user')))
+    }
   },
   mounted() {
 
     //this.$store.commit('setUser', JSON.parse(localStorage.getItem('user')))
-    this.$store.dispatch({ type: 'getSettings'})
+    
+    if (localStorage.getItem('user')){
+      this.$store.dispatch({ type: 'getSettings'})
+    }
   }
 }
 </script>

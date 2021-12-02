@@ -35,7 +35,7 @@
          <div class="col-3">
         </div>
          <div class="col-3 col-offset-3">
-          <button type="submit" class="login-btn" @click="handleSubmit">Login</button>
+          <button type="button" class="login-btn" @click="handleSubmit">Login</button>
         </div>
       </div>
     </div>
@@ -99,11 +99,11 @@ export default {
                   const { data } = res
                   const { roles } = data
                   this.$store.commit('setUser', data)                  
-                  if (roles.includes('admininistrator')){
+  /*                 if (roles.includes('admininistrator')){
                     this.$router.push(this.$route.query.redirect || '/')
                   }else{                    
                     this.$router.push(this.$route.query.redirect || '/proposals')
-                  }
+                  } */
                 }
 
             }).catch((err) => {

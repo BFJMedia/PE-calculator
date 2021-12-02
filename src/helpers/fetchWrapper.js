@@ -22,11 +22,17 @@ const request = (url, options, isJson = true) => {
   const localData = localStorage.getItem('jwt')
   const token = localData ? (JSON.parse(localData)).token : ''
   // eslint-disable-next-line no-param-reassign
+  
+  
 
   options.headers = {...options.headers, 
     'Cache-Control': 'no-cache',
     'Access-Control-Allow-Origin':'*'
   }
+
+/*   options.headers = {...options.headers, 
+    'Authorization': 'Basic '+btoa('flywheel:enlightened-racket')
+  } */
   options.mode = 'cors'
   
   if (token) {
