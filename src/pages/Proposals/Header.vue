@@ -175,6 +175,11 @@ export default {
     updateProposalHeading: async function(){
       
       let formData = {...this.headerForm};
+      formData.title = this.headerForm.title
+
+
+
+
 
       if (dayjs(formData.fields.date_formatted).isValid()){
         formData.fields.date_started = dayjs(formData.fields.date_formatted, "m/d/y")
@@ -188,8 +193,15 @@ export default {
       }
 
       if (this.proposal_id){
+
+        const updatedProposal = {
+            ...this.currentProposal, 
+                formData,
+                fields: formData.fields,
+                acf:formData.fields
+          }
         
-/*         await  request(`${PE_PROPOSALS}/${this.proposal_id}`, {
+        await  request(`${PE_PROPOSALS}/${this.proposal_id}`, {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
@@ -199,20 +211,13 @@ export default {
             this.$store.commit('updateCurrentProposal', res)
         }).catch((err) => {
           console.log(err)
-        }) */
-
-        const updatedProposal = {
-            ...this.currentProposal, 
-               formData,
-               fields: formData.fields,
-               acf:formData.fields
-          }
+        }) 
 
       this.$store.commit('updateGlobalState',{
         prop: 'currentProposal',
         value: updatedProposal
       })
-      this.$store.dispatch('saveProposal')
+      //this.$store.dispatch('saveProposal')
 
       }
 

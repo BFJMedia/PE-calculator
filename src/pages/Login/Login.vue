@@ -99,11 +99,11 @@ export default {
                   const { data } = res
                   const { roles } = data
                   this.$store.commit('setUser', data)                  
-  /*                 if (roles.includes('admininistrator')){
+                   if (roles.includes('admininistrator')){
                     this.$router.push(this.$route.query.redirect || '/')
                   }else{                    
                     this.$router.push(this.$route.query.redirect || '/proposals')
-                  } */
+                  }
                 }
 
             }).catch((err) => {
