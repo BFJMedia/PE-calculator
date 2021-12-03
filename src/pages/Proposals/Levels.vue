@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="form-group row" v-if="currentProposalLevel">
-      <div v-if="currentProposalLevel.floor_activities">
+      <div >
         <div  v-for="(activity, i) in currentProposalLevel.floor_activities" :key="activity.activity.term_id">
           <FloorActivity 
             :activity="activity" 
@@ -170,7 +170,7 @@ export default {
       })
     },
     addFloorActivity: function(){
-      const updatedFloorActivities = [...this.currentProposalLevel.floor_activities, DEFAULT_FLOOR_ACTIVITY]
+      const updatedFloorActivities = [...this.currentProposalLevel.floor_activities || [], DEFAULT_FLOOR_ACTIVITY]
 
       let levelIndex = (this.proposal.acf.levels === false || this.proposal.acf.levels === undefined) ? -1 : this.proposal.acf.levels.findIndex(a => a.level?.term_id === this.currentProposalLevel.level.term_id)
 
@@ -243,7 +243,7 @@ export default {
 
     ]),
     ...mapState([
-      'floorActivities',
+      'floor_activities',
 
     ]),
     totalFloorActivities() {
@@ -256,9 +256,9 @@ export default {
 
     },
     filteredFloorActivities() {
-      if (this.currentProposalLevel.floor_activities === false) return this.floorActivities
+      if (this.currentProposalLevel.floor_activities === false || this.currentProposalLevel.floor_activities.length ===0) return this.floorActivities
 
-      return this.floorActivities.filter( a => {
+      return this.floor_activities.filter( a => {
         if ( !this.currentFloorActivites.includes(a.id)) return a } )
     }
 
