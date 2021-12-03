@@ -16,10 +16,10 @@
     </div>
     <div class="icon center col-1 col-md-2"></div>
     <div class="icons col-4">
-    <div class="icons d-block" v-if="showAddNew">
+    <div class="icons d-block" v-if="showDuplicateRemove">
       
-      <button class="btn remove-btn top-link float-right" title="remove"><img src="@/assets/icons/0.75x/delete-icon.png" class="icon remove"/></button>
-      <button class="btn duplicate-btn top-link float-right" title="duplicate"><img src="@/assets/icons/0.75x/duplicate-icon.png" class="icon duplicate"/></button>
+      <button class="btn remove-btn top-link float-right" title="remove"><img src="@/assets/icons/0.75x/delete-icon.png" class="icon remove" @click="confirmDeleteProposal"/></button>
+      <button class="btn duplicate-btn top-link float-right" title="duplicate"><img src="@/assets/icons/0.75x/duplicate-icon.png" class="icon duplicate" /></button>
     </div>
     </div>
     </div>
@@ -30,6 +30,9 @@
 </template>
 
 <script>
+
+import { mapGetters, mapState } from 'vuex'
+
 export default {
   name: 'Header',
 
@@ -47,12 +50,42 @@ export default {
     async openNewProposal(){
       await this.$store.dispatch({ type: 'createNewProposal'})
       this.$router.push({ name: 'ProposalHeader' })
-    }
+    },
+    confirmDeleteProposal: function(e) {
+
+      let title = this.proposal.title.rendered; 
+
+       this.$confirm(
+        {
+          message: `Are you sure you want to delete ${title}?`,
+          button: {
+            no: 'No',
+            yes: 'Yes'
+          },
+          /**
+          * Callback Function
+          * @param {Boolean} confirm 
+          */
+          callback: confirm => {
+            if (confirm) {
+              //this.deleteRoom(currentRoomId);
+            }
+          }
+        }
+      )
+    },
+    
   },
   computed: {
      score() { return this.$store.state.count },
      showAddNew() {
        return this.$route.name === 'ProposalMain'
+     },
+     showDuplicateRemove() {
+      return this.$store.state.currentProposal === null ? false : true;
+     },
+     proposal() {
+      return this.$store.state.currentProposal;
      }
   }
 };
