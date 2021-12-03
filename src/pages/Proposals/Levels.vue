@@ -50,11 +50,13 @@
         </div>
       </div>
     </div>
-            <div class="form-group row">
+    <div class="bottom-80">
+    <div class="form-group row">
        <label for="staticEmail" class="col-sm-3 col-form-label text-left">Total Amount</label>
         <div class="col-sm-9 total">
            <strong>$ 125.55</strong>
         </div>
+    </div>
     </div>
   </div>
 </template>

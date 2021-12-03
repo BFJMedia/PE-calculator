@@ -36,6 +36,9 @@ export default {
 <style lang="scss" scoped>
   .container {
     width: 80vw;
+    @media only screen and (max-width: 600px) {
+       width: 90vw;
+    }
   }
 
 </style>

@@ -107,7 +107,7 @@
       </div>
     </div>
     <div class="form-group row">
-      <label for="staticEmail" class="col-sm-3 col-form-label">Hours</label>
+      <label for="staticEmail" class="col-sm-3 col-form-label">Day Hours</label>
       <div class="col-sm-9">
         <input type="text"  class="form-control-plaintext pe-input mb-1 currency" 
          v-model="headerForm.fields.hours"
@@ -116,12 +116,15 @@
       </div>
     </div>
   
+    <div class="bottom-80">
     <div class="form-group row">
        <label for="staticEmail" class="col-sm-3 col-form-label">Total Amount</label>
         <div class="col-sm-9 total">
            <strong> $ {{totalAmount }}</strong>
         </div>
     </div>
+    </div>
+
   </div>
 </template>
 
@@ -263,4 +266,5 @@ export default {
     color: #232323;    
     padding: 5px 0 5px 0;
   }
+  
 </style>
