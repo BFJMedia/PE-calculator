@@ -80,7 +80,7 @@ export default new Vuex.Store({
       await request(PE_PROPOSALS, {
         method: 'POST',
         body: JSON.stringify({
-          title: '-',
+          title: 'New Proposal - edit title',
           status: 'publish'
         }),
         headers: {
