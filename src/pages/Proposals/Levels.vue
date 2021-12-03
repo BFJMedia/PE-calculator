@@ -50,7 +50,12 @@
         </div>
       </div>
     </div>
-    
+            <div class="form-group row">
+       <label for="staticEmail" class="col-sm-3 col-form-label text-left">Total Amount</label>
+        <div class="col-sm-9 total">
+           <strong>$ 125.55</strong>
+        </div>
+    </div>
   </div>
 </template>
 
@@ -168,6 +173,8 @@ export default {
         prop: 'currentProposalLevel',
         value: this.$store.state.currentProposal.acf.levels[e.index]
       })
+      
+      this.$store.dispatch('saveProposal')
     },
     addFloorActivity: function(){
       const updatedFloorActivities = [...this.currentProposalLevel.floor_activities || [], DEFAULT_FLOOR_ACTIVITY]
