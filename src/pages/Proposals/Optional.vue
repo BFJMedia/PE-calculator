@@ -13,9 +13,13 @@
       <label for="staticEmail" class="col-sm-3 col-form-label text-left">Optional Extras:</label>
       <div class="col-sm-9 ">
         <custom-dropdown
-          :options="globalOptionals"
+          :options="optionals"
           :default="'Select optional'"
           class="select"
+          @onAdd="addOptional($event)"
+          @onDelete="confirmDeleteOptional($event)"
+          @onEdit="editOptional($event)"
+          v-model="optionalData.selectedOptional"
         ></custom-dropdown>
       </div>
     </div>
@@ -40,12 +44,22 @@
 </template>
 
 <script>
+import request from '@/helpers/fetchWrapper'
+import { GET_TAXONOMY, UPDATE_TAXONOMY } from '@/utils/const'
+
 export default {
   name: 'PlanetFeOptional',
 
   data() {
     return {
-      
+        taxonomyData: {
+        name:'',
+        description:''
+      },
+      optionalData: {
+          selectedOptional: null,
+          cost_per_activity: null,
+        }
     };
   },
 
@@ -53,8 +67,72 @@ export default {
     
   },
 
-  methods: {
-    
+  methods: {    
+    addOptional: function(e){
+      this.addTaxonomy(e, 'optionals')
+    },   
+    editOptional: function(e){
+      this.addTaxonomy(e, 'optionals')
+    },
+    confirmDeleteOptional: function(e){
+      this.deleteTaxonomy(e, 'optionals')
+    },
+    addTaxonomy: function(e, taxonomy){
+      this.action = 'add';
+      this.taxonomyData.name = e;
+      const findRoom = this[taxonomy].find(a => a.name === this.taxonomyData.name)
+      if (this.taxonomyData.name !== '' && findRoom === undefined){
+        this.saveData(taxonomy)
+      }
+    },
+   saveData: function(taxonomy) {
+      const url = this.action==='add' ?  `${UPDATE_TAXONOMY}${taxonomy}`  : `${UPDATE_TAXONOMY}${taxonomy}/${this.id}`
+
+      let formData = {...this.taxonomyData};
+
+      request(`${url}`, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then((res) => {
+        console.log(res);
+
+        this.taxonomyData = {
+          name:'',
+          description:''
+        };
+        this.$store.dispatch('getTaxonomy', {taxonomy: taxonomy});
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    confirmDeleteTaxonomy: function(e, taxonomy) {
+
+      const currentRoomId = e;
+      const findRoom = this[taxonomy].find(a => a.id === e);
+      const currRoomName = findRoom.name;
+
+       this.$confirm(
+        {
+          message: `Are you sure you want to delete ${currRoomName}?`,
+          button: {
+            no: 'No',
+            yes: 'Yes'
+          },
+          /**
+          * Callback Function
+          * @param {Boolean} confirm 
+          */
+          callback: confirm => {
+            if (confirm) {
+              this.deleteTaxonomy(currentRoomId, taxonomy);
+            }
+          }
+        }
+      )
+    },    
   },
   computed: {
     currentProposal () {
@@ -63,7 +141,7 @@ export default {
     currentLevel () {
       return this.$store.state.currentProposalLevel || {name: "None selected"};
     },
-    globalOptionals () {
+    optionals () {
       return this.$store.state.optionals;
     },
     globalActivities () {
