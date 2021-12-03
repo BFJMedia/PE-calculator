@@ -149,7 +149,7 @@ export default {
     },
     addFloor: function(e){
       this.action = 'add';
-
+      
       try {
         this.floorData.name = this.$refs.floor_select.$data.searchText;
       } catch (error) {
@@ -157,7 +157,7 @@ export default {
       }
 
       this.floorData.calculation = '';
-      if(this.floors.length ===0) return
+      //if(this.floors.length ===0) return
 
       const findRoom = this.floors.find(a => a.name === this.floorData.name)
       if (this.floorData.name !== '' && findRoom === undefined){
