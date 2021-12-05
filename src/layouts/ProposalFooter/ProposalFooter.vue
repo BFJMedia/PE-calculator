@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="footer" v-if="proposal">
     <div class="tabs">
 <!--       <router-link class="" :to="{ name: 'ProposalHeader' }">Header</router-link> -->
       <router-link class="" :to="{ name: 'ProposalLevels' }">Levels</router-link>
@@ -29,6 +29,11 @@ export default {
   methods: {
     
   },
+  computed: {
+     proposal() {
+      return this.$store.state.currentProposal;
+     }
+  }
 };
 </script>
 
