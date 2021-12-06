@@ -37,7 +37,7 @@
         <div class="form-group row">
        <label for="staticEmail" class="col-sm-3 col-form-label text-left">Total Amount</label>
         <div class="col-sm-9 total">
-           <strong>$ 125.55</strong>
+           <strong>$ {{totalAmount }}</strong>
         </div>
     </div>
   </div>
@@ -46,6 +46,8 @@
 <script>
 import request from '@/helpers/fetchWrapper'
 import { GET_TAXONOMY, UPDATE_TAXONOMY } from '@/utils/const'
+import { computeTotalProposal } from '@/utils/functions'
+
 
 export default {
   name: 'PlanetFeOptional',
@@ -147,6 +149,9 @@ export default {
     globalActivities () {
       return this.$store.state.activities;
     },
+    totalAmount (){
+      return computeTotalProposal(this.currentProposal, this.$store.state.floor_activities)
+    }
   }, 
 };
 </script>

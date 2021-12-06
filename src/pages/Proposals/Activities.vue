@@ -90,7 +90,7 @@
     <div class="form-group row">
        <label for="staticEmail" class="col-sm-3 col-form-label text-left">Total Amount</label>
         <div class="col-sm-9 total">
-           <strong>$ 125.55</strong>
+           <strong>$ {{totalAmount }}</strong>
         </div>
     </div>
   </div>
@@ -101,6 +101,7 @@
 import { DAY_OPTIONS, WEEK_OPTIONS,PE_PROPOSALS } from "@/utils/const";
 import request from '@/helpers/fetchWrapper'
 import { mapGetters, mapState } from 'vuex'
+import { computeTotalProposal } from '@/utils/functions'
 
 export default {
   name: 'ProposalActivities',
@@ -198,6 +199,9 @@ export default {
     }
   },
   computed: {
+    currentProposal () {
+      return this.$store.state.currentProposal;
+    },
     globalRooms () { return this.$store.state.rooms;},
     globalActivities () {return this.$store.state.activities; },  
     proposal_id () {
@@ -213,7 +217,10 @@ export default {
     ]),
     ...mapGetters([
       'currentProposalLevelIndex'
-    ])
+    ]),
+    totalAmount (){
+      return computeTotalProposal(this.currentProposal, this.$store.state.floor_activities)
+    }
   },
   watch: {
     globalRooms: {

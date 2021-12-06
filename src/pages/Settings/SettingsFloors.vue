@@ -8,12 +8,12 @@
       <form id="floors-page" class="">
           <div class="row mb-3">
             <div class="col-3 text-l">
-              <label class="text-l">Floors:</label>
+              <label class="text-l">Floor Activity:</label>
             </div>
             <div class="col-9">
               <custom-dropdown
                 :options="floors"
-                :default="'Select floor'"
+                :default="'Select floor activity'"
                 class="select"
                 v-model="currentFloor"
                 @onAdd="addFloor($event)"
@@ -24,7 +24,7 @@
           </div>
           <div class="row text-l">
             <div class="col-3 col-md-3">
-              <label for="settings-calc" class="text-l">Calculation:</label>
+              <label for="settings-calc" class="text-l">Calculation</label>
             </div>
             <div class="col-8 col-md-9">
                 <input type="text" 
@@ -34,6 +34,15 @@
                   v-model="calculation"
                   v-on:change="editFloor"
                 >
+               
+            </div>
+         </div>
+           <div class="row text-l">
+             <div class="col-3 col-md-3">
+              
+            </div>
+            <div class="col-8 col-md-9">
+               <span class="text-small">Note: Please in sample format <strong>=Area/450/50*60. Area will be replace at proposal.</strong></span>
             </div>
          </div>
 
@@ -114,7 +123,7 @@ export default {
 
   methods: {
     fetchData: function(){
-        request(`${GET_TAXONOMY}floors?per_page=99`, {
+        request(`${GET_TAXONOMY}floor_activities?per_page=99`, {
           method: 'GET'
         }).then((res) => {         
            this.floors = res 
@@ -127,7 +136,7 @@ export default {
       this.showAddForm = !this.showAddForm
     },
     saveData: function() {
-      const url = this.action==='add' ?  `${UPDATE_TAXONOMY}floors`  : `${UPDATE_TAXONOMY}floors/${this.currentFloor.id}` 
+      const url = this.action==='add' ?  `${UPDATE_TAXONOMY}floor_activitiess`  : `${UPDATE_TAXONOMY}floor_activities/${this.currentFloor.id}` 
 
       let formData = {...this.floorData};
 
@@ -246,5 +255,5 @@ export default {
 
 <style lang="scss">
  
-  
+  .text-small {font-size: 10px;}
 </style>

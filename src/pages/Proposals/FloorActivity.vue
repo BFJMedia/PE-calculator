@@ -110,6 +110,13 @@ export default {
       'floorActivities',
 
     ]),
+  },
+  watch: {
+    selected() {
+      this.formData.activity = this.selected
+      const data = {...this.formData, index: this.index}
+      this.$emit("onChangeActivity", data);
+    }
   }
 };
 </script>

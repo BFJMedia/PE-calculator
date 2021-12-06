@@ -53,6 +53,10 @@ export default {
     margin: 0 auto;
     text-align: center;
 
+    @media only screen and (max-width: 600px) {
+       width: 90vw;
+    }
+    
     table {
       width: 100px;
       position: relative;

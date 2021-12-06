@@ -52,7 +52,6 @@ export default {
   },
 
   mounted() {
-    this.fetchProposals()
     
     this.$store.dispatch('getTaxonomy', {taxonomy: 'rooms'});
     this.$store.dispatch('getTaxonomy', {taxonomy: 'levels'});
@@ -60,7 +59,12 @@ export default {
     this.$store.dispatch('getTaxonomy', {taxonomy: 'periodicals'});
     this.$store.dispatch('getTaxonomy', {taxonomy: 'optionals'});
     this.$store.dispatch('getTaxonomy', {taxonomy: 'frequencies'});
-    this.$store.dispatch('getTaxonomy', {taxonomy: 'floor_activities'});
+    
+    // fetch proposals
+
+    this.$store.dispatch('getTaxonomy', {taxonomy: 'floor_activities'}).then(res=>{
+      this.fetchProposals()
+    })
   },
 
   methods: {
@@ -78,9 +82,14 @@ export default {
       this.$router.push({ name: 'ProposalHeader' })
     },
     totalAmount (proposal){
-      return computeTotalProposal(proposal)
+      return parseFloat(computeTotalProposal(proposal, this.floorActivities ))
     }
   },
+  computed: {
+    floorActivities() {
+      return this.$store.state.floor_activities || []
+    }
+  }
 };
 </script>
 

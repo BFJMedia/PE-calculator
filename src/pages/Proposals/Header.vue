@@ -234,7 +234,7 @@ export default {
       return this.currentProposal.id
     },
     totalAmount (){
-      return computeTotalProposal(this.currentProposal)
+      return computeTotalProposal(this.currentProposal, this.$store.state.floor_activities)
     }
   }
 };

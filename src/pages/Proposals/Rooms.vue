@@ -54,7 +54,7 @@
     <div class="form-group row">
        <label for="staticEmail" class="col-sm-3 col-form-label text-left">Total Amount</label>
         <div class="col-sm-9 total">
-           <strong>$ 125.55</strong>
+           <strong>$ {{totalAmount }}</strong>
         </div>
     </div>
   </div>
@@ -65,6 +65,7 @@ import { mapGetters } from 'vuex'
 import request from "@/helpers/fetchWrapper";
 import { GET_TAXONOMY, PE_PROPOSALS, DEFAULT_ACTIVITY } from "@/utils/const";
 
+import { computeTotalProposal } from '@/utils/functions'
 export default {
   name: "PlanetFeRooms",
 
@@ -173,7 +174,10 @@ export default {
      ...mapGetters([
       'currentProposalLevelIndex',
       'currentProposalRoomIndex'
-    ])
+    ]),
+    totalAmount (){
+      return computeTotalProposal(this.currentProposal, this.$store.state.floor_activities)
+    }
   }, 
   watch: {
     globalRooms: {

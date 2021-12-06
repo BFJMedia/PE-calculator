@@ -29,8 +29,7 @@ export default {
   },
   template: `
     <div class="custom-select" :tabindex="tabindex" @blur="onBlurOutside($event)">
-      <div class="selected" :class="{ open: open }" @click="open = !open">
-        {{ selected }}
+      <div class="selected" :class="{ open: open }" @click="open = !open" v-html="selected">
       </div>
       <div class="items" :class="{ selectHide: !open }">
         <div class="flex-row input-holder" :tabindex="tabindex">

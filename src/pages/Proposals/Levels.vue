@@ -54,7 +54,7 @@
     <div class="form-group row">
        <label for="staticEmail" class="col-sm-3 col-form-label text-left">Total Amount</label>
         <div class="col-sm-9 total">
-           <strong>$ 125.55</strong>
+           <strong>$ {{totalAmount }}</strong>
         </div>
     </div>
     </div>
@@ -71,6 +71,7 @@ import CustomDropdown from '../../components/common/CustomDropdown.vue';
 import FloorActivity from './FloorActivity.vue';
 
 import { mapGetters, mapState } from 'vuex'
+import { computeTotalProposal } from '@/utils/functions'
 
 export default {
   name: 'ProposalLevels',
@@ -145,7 +146,7 @@ export default {
         console.log(err)
       })
     },
-    updateFloorActivity: async function(e){
+    updateFloorActivity: function(e){
 
       const vm = this
       
@@ -182,15 +183,17 @@ export default {
           value: updatedProposal
         } )
 
-      const result = await this.$store.dispatch('saveProposal')
+      this.$store.dispatch('saveProposal').then(res => {
+        if (res){
+          this.$store.commit('updateGlobalState', {
+           prop: 'currentProposalLevel',
+           value: this.$store.state.currentProposal.acf.levels[e.index]
+         })
+  
+        }
 
-      if (result){
-        this.$store.commit('updateGlobalState', {
-         prop: 'currentProposalLevel',
-         value: this.$store.state.currentProposal.acf.levels[e.index]
-       })
+      })
 
-      }
       
     },
     addFloorActivity: function(){
@@ -286,6 +289,9 @@ export default {
 
       return this.floor_activities.filter( a => {
         if ( !this.currentFloorActivites.includes(a.id)) return a } )
+    },
+    totalAmount (){
+      return computeTotalProposal(this.currentProposal, this.$store.state.floor_activities)
     }
 
   },

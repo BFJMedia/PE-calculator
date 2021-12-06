@@ -17,7 +17,7 @@ export default new Vuex.Store({
     levels:[],
     periodicals:[],
     optionals:[],
-    floorActivities:[],
+    floor_activities:[],
     currentProposal: null,
     proposalMode: 'new',
     currentProposalLevel: null,
@@ -68,13 +68,17 @@ export default new Vuex.Store({
       })
     },
     getTaxonomy ({commit}, param){
-      
-      request(GET_TAXONOMY+param.taxonomy+'?per_page=99', {
-        method: 'GET'
-      }).then((res) => {              
-          commit('updateGlobalState', {prop: param.taxonomy, value: res})
-      }).catch((err) => {
-        console.log(err)
+      return new Promise((resolve, reject) => {
+        request(GET_TAXONOMY+param.taxonomy+'?per_page=99', {
+          method: 'GET'
+        }).then((res) => {              
+            commit('updateGlobalState', {prop: param.taxonomy, value: res})
+            resolve(res)
+
+        }).catch((err) => {
+          console.log(err)
+          reject(err)
+        })
       })
     },
     async createNewProposal ({commit}){
@@ -103,7 +107,7 @@ export default new Vuex.Store({
         updatedProposal.fields = {...updatedProposal.acf}
       }
 
-      updatedProposal.fields.total_amount = computeTotalProposal(updatedProposal);
+      updatedProposal.fields.total_amount = computeTotalProposal(updatedProposal, state.floor_activities);
 
       return new Promise((resolve, reject) => {
 

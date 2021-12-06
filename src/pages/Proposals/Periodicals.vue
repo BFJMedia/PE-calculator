@@ -47,7 +47,7 @@
           Total Amount
       </label>
       <div class="col-sm-9 total">
-        <strong>$ 125.55</strong>
+           <strong>$ {{totalAmount }}</strong>
       </div>
     </div>
   </div>
@@ -56,6 +56,7 @@
 <script>
 import request from '@/helpers/fetchWrapper'
 import { GET_TAXONOMY, UPDATE_TAXONOMY } from '@/utils/const'
+import { computeTotalProposal } from '@/utils/functions'
 
 export default {
   name: 'ProposalPeriodicals',
@@ -180,6 +181,9 @@ export default {
     },
   },
   computed: {
+    currentProposal () {
+      return this.$store.state.currentProposal;
+    },
     proposal () {
       return this.$store.state.currentProposal;
     },
@@ -194,12 +198,14 @@ export default {
     },
     proposal_id () {
       return this.currentProposal.id
+    },
+    totalAmount (){
+      return computeTotalProposal(this.currentProposal, this.$store.state.floor_activities)
     }
   },
   watch: {
     'periodicalData.selectedPeriodical': function(newVal, oldVal) {
-      console.log(newVal)
-      console.log(oldVal)
+      
       // the current proposal
 
       let propposalActivities = []
