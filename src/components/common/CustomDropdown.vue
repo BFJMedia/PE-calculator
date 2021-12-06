@@ -38,11 +38,11 @@ export default {
             type="text"
             name="add-new-entity"
             placeholder="Start typing here"
-            class="flex-80 add-input text-l"
+            class="flex-60 add-input text-l"
             v-model="addInputText"
             @blur="onBlurOutside($event)"
           ></input>
-          <div class="flex-15 button-div">
+          <div class="flex-40 button-div">
             <button
               type="button"
               class="btn-black plus"
@@ -56,7 +56,7 @@ export default {
           v-for="(option, i) of options"
           :key="i"
         >
-          <div class="flex-60 editable">
+          <div class="flex-40 editable">
             <input
               type="text"
               :value="option[keyName]"
@@ -68,7 +68,7 @@ export default {
             </input>
           </div>
           <div 
-            class="flex-20"
+            class="flex-60"
             @click="
               selected = option[keyName];
               open = true;
@@ -76,7 +76,7 @@ export default {
               emitSelect()
             "
           >&nbsp;</div>
-          <div class="flex-15 button-div">
+          <div class="flex-40 button-div">
             <button
               type="button"
               class="btn-black minus"

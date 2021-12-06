@@ -100,8 +100,10 @@ export default {
     text-overflow: ellipsis " [..]";
     max-height: 29px;
     overflow: hidden;
-
   }
+    .proposal-texts {
+      font-size: 14px;
+    }
   @media screen and (max-width: 375px) and (min-width: 200px) {
     .container {
       width: 97vw !important;

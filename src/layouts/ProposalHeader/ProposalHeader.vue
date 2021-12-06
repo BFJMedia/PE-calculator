@@ -15,15 +15,15 @@
       </button>
     </div>
     <div class="icon center col-1 col-md-2"></div>
-    <div class="icons col-4">
-    <div class="icons d-block" v-if="showDuplicateRemove">
-      
-      <button class="btn remove-btn top-link float-right" title="remove"><img src="@/assets/icons/0.75x/delete-icon.png" class="icon remove" @click="confirmDeleteProposal"/></button>
-      <button class="btn duplicate-btn top-link float-right" title="duplicate"><img src="@/assets/icons/0.75x/duplicate-icon.png" class="icon duplicate" /></button>
+      <div class="icons col-4">
+        <div class="icons d-block" v-if="showDuplicateRemove">
+          
+          <button class="btn remove-btn top-link float-right" title="remove"><img src="@/assets/icons/0.75x/delete-icon.png" class="icon remove" @click="confirmDeleteProposal"/></button>
+          <button class="btn duplicate-btn top-link float-right" title="duplicate"><img src="@/assets/icons/0.75x/duplicate-icon.png" class="icon duplicate" /></button>
+        </div>
+      </div>
     </div>
-    </div>
-    </div>
-    </div>
+  </div>
 
 
   </div>

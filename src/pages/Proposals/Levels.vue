@@ -145,11 +145,23 @@ export default {
         console.log(err)
       })
     },
-    updateFloorActivity: function(e){
-      const updatedLevels = this.proposal.fields.levels.map((a,i) =>{
-        if ( i === e.index) {
-          return {...e}
+    updateFloorActivity: async function(e){
+
+      const vm = this
+      
+      const updatedLevels = vm.proposal.fields.levels.map((a) =>{
+
+        if (a.floor_activities && vm.currentProposalLevel.level.term_id === a.level.term_id){
+
+            const updatedFloorAct = a.floor_activities.map( (f, i) => {
+              if ( i === e.index) {
+                return {...e}
+              }
+              return f
+            })
+            return {...a, floor_activities: updatedFloorAct }
         }
+
         return a
       })
 
@@ -170,13 +182,16 @@ export default {
           value: updatedProposal
         } )
 
+      const result = await this.$store.dispatch('saveProposal')
 
-       this.$store.commit('updateGlobalState', {
-        prop: 'currentProposalLevel',
-        value: this.$store.state.currentProposal.acf.levels[e.index]
-      })
+      if (result){
+        this.$store.commit('updateGlobalState', {
+         prop: 'currentProposalLevel',
+         value: this.$store.state.currentProposal.acf.levels[e.index]
+       })
+
+      }
       
-      this.$store.dispatch('saveProposal')
     },
     addFloorActivity: function(){
       const updatedFloorActivities = [...this.currentProposalLevel.floor_activities || [], DEFAULT_FLOOR_ACTIVITY]
@@ -256,6 +271,8 @@ export default {
 
     ]),
     totalFloorActivities() {
+      if (this.currentProposalLevel === null) return 0
+
       return (this.currentProposalLevel?.floor_activities || this.currentProposalLevel?.floor_activities == false) ? 0 : this.currentProposalLevel?.floor_activities.length 
     },
     currentFloorActivites(){

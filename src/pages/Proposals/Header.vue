@@ -180,10 +180,6 @@ export default {
       let formData = {...this.headerForm};
       formData.title = this.headerForm.title
 
-
-
-
-
       if (dayjs(formData.fields.date_formatted).isValid()){
         formData.fields.date_started = dayjs(formData.fields.date_formatted, "m/d/y")
       }

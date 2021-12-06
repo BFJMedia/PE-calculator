@@ -7,6 +7,7 @@
             class="select"            
             @onAdd="addFloorAct($event)"          
             @onEdit="editFloorAct($event)"
+            v-model="selected"
           ></custom-dropdown>
         </div>
         <div class="col-3">
@@ -54,7 +55,8 @@ export default {
         description:''
       },
       action: 'add',
-      floorActivityId: 0
+      floorActivityId: 0,
+      selected: null
     };
   },
 

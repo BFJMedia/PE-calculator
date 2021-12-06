@@ -37,6 +37,7 @@ export default new Vuex.Store({
     },
     updateCurrentProposal(state, payload){
       state.currentProposal = { ...payload}
+      state.currentProposal.fields = state.currentProposal.acf
       state.currentProposalLevel = null
       state.currentRoom = null
       state.currentActivity = null
@@ -95,30 +96,34 @@ export default new Vuex.Store({
 
   
 
-    async saveProposal ({commit, state}, params) {
+    saveProposal ({commit, state}, params) {
 
       let updatedProposal = {...state.currentProposal}
       if (updatedProposal.fields === undefined){
         updatedProposal.fields = {...updatedProposal.acf}
       }
 
-
-
       updatedProposal.fields.total_amount = computeTotalProposal(updatedProposal);
 
-      console.log(updatedProposal.fields.total_amount)
+      return new Promise((resolve, reject) => {
 
-      await request(`${PE_PROPOSALS}/${state.currentProposal.id}`, {
-        method: 'POST',
-        body: JSON.stringify(updatedProposal),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {              
-          commit('updateCurrentProposal', res)
-      }).catch((err) => {
-        console.log(err)
+        request(`${PE_PROPOSALS}/${state.currentProposal.id}`, {
+          method: 'POST',
+          body: JSON.stringify(updatedProposal),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => {              
+            commit('updateCurrentProposal', res)
+            resolve (true)
+          }).catch((err) => {
+            console.log(err)
+            reject (err)
+        })
+
       })
+
+    
 
     },
 /*     computeTotalProposal({commit, state}) {
