@@ -15,9 +15,7 @@
         <input type="text" class="form-control-plaintext pe-input mb-2" 
           v-model="headerForm.fields.address_1"
           @change="updateProposalHeading" >
-        <input type="text" class="form-control-plaintext pe-input "
-          v-model="headerForm.fields.address_2"
-          @change="updateProposalHeading" >
+       
       </div>
     </div>
     <div class="form-group row">

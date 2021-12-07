@@ -1,8 +1,8 @@
 <template>
   <div class="footer">
     <div class="tabs">
-      <router-link class="" :to="{ name: 'SettingsRooms' }">Rooms</router-link>
       <router-link class="" :to="{ name: 'SettingsFloors' }">Floors</router-link>
+      <router-link class="" :to="{ name: 'SettingsRooms' }">Rooms</router-link>
       <router-link class="" :to="{ name: 'SettingsActivities' }">Activities</router-link>
       <router-link class="" :to="{ name: 'SettingsPeriodicals' }">Periodicals</router-link>
       <router-link class="" :to="{ name: 'SettingsOptionals' }">Optional</router-link>
