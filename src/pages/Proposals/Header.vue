@@ -122,6 +122,13 @@
         </div>
     </div>
     </div>
+    
+    <div class="form-group row">
+         <label for="staticEmail" class="col-sm-3 col-form-label"></label>
+          <div class="col-sm-9">
+           <button @click="sendProposal"> Send</button>
+        </div>
+    </div>
 
   </div>
 </template>
@@ -130,7 +137,7 @@
 import { mapGetters } from 'vuex'
 import dayjs from 'dayjs'
 import request from '@/helpers/fetchWrapper'
-import { LOGIN_URL, PE_PROPOSALS, DAY_OPTIONS  } from '@/utils/const'
+import { PROPOSAL_PDF, PE_PROPOSALS, DAY_OPTIONS  } from '@/utils/const'
 
 import { computeTotalProposal } from '@/utils/functions'
 export default {
@@ -219,7 +226,19 @@ export default {
       }
 
     },
+    sendProposal: async function(){
+       await  request(`${PROPOSAL_PDF}/${this.proposal_id}`, {
+        method: 'GET',        
+        headers: {
+          "Content-Type": "application/json",
+        },
+        }).then((res) => {              
+            console.log(res)
+        }).catch((err) => {
+          console.log(err)
+        }) 
 
+    }
   },
   computed: {
     currentProposal () {

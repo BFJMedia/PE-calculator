@@ -10,6 +10,17 @@
       </div>
     </div>
     <div class="form-group row">
+      <label for="selectedLevel" class="col-sm-3 col-form-label text-l">Current Level</label>
+      <div class="col-sm-9">
+        <input type="text" name="selectedLevel" 
+          class="form-control-plaintext pe-input " 
+          :value="currentLevel.level.name"
+          disabled
+           >
+      </div>
+    </div>
+
+    <div class="form-group row">
       <label for="staticEmail" class="col-sm-3 col-form-label text-left">Room</label>
       <div class="col-sm-9">
         <input type="text" name="selectedRoom" class="form-control-plaintext pe-input " 
@@ -37,7 +48,15 @@
       </div>
     </div>
     <div class="form-group row">
-      <label for="staticEmail" class="col-sm-3 col-form-label text-left">Time to perform task</label>
+      <label for="staticEmail" class="col-sm-3 col-form-label text-left">Quantity:</label>
+      <div class="col-sm-9 ">
+        <input type="text" class="form-control-plaintext pe-input my-1" v-model="formData.fields.quantity"
+        @change="updateProposal"
+        >
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="staticEmail" class="col-sm-3 col-form-label text-left">Time taken</label>
       <div class="col-sm-9 ">
             <div class="flex-80 flex-row">
               <input type="text" required="required" autofocus="autofocus" placeholder="hrs" class="act-ttpt act-hrs mr-15"
@@ -138,6 +157,7 @@ export default {
       }
 
       this.formData.fields.time_taken = this.formData.fields.time_array.join(":")
+      this.formData.fields.time_to_perform_task = this.formData.fields.time_array.join(":")
       // Update proposal
       const updatedActivity = {...this.currentActivity, ...this.formData.fields}
       
@@ -153,7 +173,9 @@ export default {
 
        let activityIndex = this.$store.state.currentRoom.activities === undefined || this.$store.state.currentRoom.activities === false? -1 : this.$store.state.currentRoom.activities.findIndex(a => a.activity.term_id === updatedActivity.activity.term_id )
 
-      const updatedActivities = this.$store.state.currentRoom.activities.map((act, i) => {
+       const roomActivities = this.$store.state.currentRoom.activities || []
+
+      const updatedActivities = roomActivities.map((act, i) => {
         if (i === activityIndex){
           return {...act, ...updatedActivity }
         }
@@ -201,6 +223,9 @@ export default {
   computed: {
     currentProposal () {
       return this.$store.state.currentProposal;
+    },
+    currentLevel () {
+      return this.$store.state.currentProposalLevel || {name: "None selected"};
     },
     globalRooms () { return this.$store.state.rooms;},
     globalActivities () {return this.$store.state.activities; },  

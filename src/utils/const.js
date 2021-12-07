@@ -14,6 +14,7 @@ export const UPDATE_TAXONOMY = `${PE_URL}/taxonomy/`
 export const DELETE_TAXONOMY = `${PE_URL}/taxonomy/`
 export const PE_PROPOSALS = `${WP_URL}/proposals`
 export const UPDATE_PROPOSAL_FIELD = `${ACF_URL}/proposals/`
+export const PROPOSAL_PDF = `${PE_URL}/proposals/pdf`
 
 export const DAY_OPTIONS = [
   [1, "M"],

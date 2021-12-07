@@ -59,13 +59,18 @@ export default new Vuex.Store({
   },
   actions: {
     getSettings ({commit}){
-      request(SETTINGS_URL, {
-        method: 'GET'
-      }).then((res) => {              
-          commit('updateSettings', res)
-      }).catch((err) => {
-        console.log(err)
+      return new Promise((resolve, reject) => {
+
+        request(SETTINGS_URL, {
+          method: 'GET'
+        }).then((res) => {              
+            commit('updateSettings', res)
+            resolve(true)
+        }).catch((err) => {
+          reject(err)
+        })
       })
+
     },
     getTaxonomy ({commit}, param){
       return new Promise((resolve, reject) => {
