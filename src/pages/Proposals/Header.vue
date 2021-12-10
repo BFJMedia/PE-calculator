@@ -277,7 +277,7 @@ export default {
     border: 3px solid #C1D72E;
     background: #C1D72E;
     color: #232323;    
-    padding: 5px 0 5px 0;
+    padding: 5px;
   }
   
 </style>

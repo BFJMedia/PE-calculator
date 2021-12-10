@@ -115,7 +115,7 @@ export default {
     }
   @media screen and (max-width: 375px) and (min-width: 200px) {
     .container {
-      width: 97vw !important;
+      width: 91vw !important;
     }  
     .proposal-texts {
       font-size: 14px;
