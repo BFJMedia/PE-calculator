@@ -82,7 +82,7 @@ export default {
       this.$router.push({ name: 'ProposalHeader' })
     },
     totalAmount (proposal){
-      return parseFloat(computeTotalProposal(proposal, this.floorActivities ))
+      return parseFloat(                                  )
     }
   },
   computed: {

@@ -56,6 +56,33 @@ const getTotalFloorActivities = (proposal) => {
 
 const getTotalRoomActivities = (proposal) => {
   let runningTotal = 0
+
+
+
+  proposal.acf.levels.forEach(level => {
+    
+    if (level.rooms === undefined || level.rooms === false) return 0
+
+/*     runningTotal += level.rooms.map(a=>getFloorActivityRate(a.activity, a.area )).reduce( 
+      (a, b) =>  {
+        return getSum(a,b)
+      }
+    ) */
+    
+      level.rooms.forEach( room => {
+        if(room.activities === false) return 0
+        
+        return room.activities.map(a => {
+          let timeTo = a.time_to_perform_task.split(':')
+          let totalHrs = timeTo[0] + (timeTo[1] / 60 ) + (timeTo[2] / 60 / 60 )
+          let totalAmt = rate *  a.quantiy
+        })
+
+      })
+
+    
+  });
+
   return runningTotal
 }
 
