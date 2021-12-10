@@ -43,7 +43,7 @@ export default {
     width: 100%;
   }
    .icon {
-      width: 40px;
+      width: 33px;
       
       margin: 0;
       .setting, .home {
@@ -51,10 +51,12 @@ export default {
       }
     }
     .icons {
-      display: flex;
-      flex-wrap: row wrap;
-      // float: left;
-    }
+    display: flex;
+    flex-wrap: row wrap;
+}
+.icons.float-l .top-link:last-child img {
+    width: 31px;
+}
     .top-link {
       width: 50px;
     }

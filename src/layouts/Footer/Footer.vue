@@ -48,7 +48,7 @@ export default {
     }
     .tabs {
       display: flex;
-      justify-content: space-evenly;
+      justify-content: space-between;
       align-content: center;
       padding: 0 20px;
       color: $white;
@@ -60,6 +60,7 @@ export default {
          font-size: 14px;
         text-decoration: none;
         font-weight: bold;
+        width: auto;
       }
       .router-link-active {      
         color: #C1D72E !important;

@@ -38,6 +38,12 @@ export default {
   .body-wrapper{
     height: 100% - 5%;
     }
+  .form-group.row:last-child {
+      position: absolute;
+      left: 0px;
+      padding: 0 1em;
+      bottom: 70px;
+  }
   .proposal-wrapper {
     position: relative;
     min-height: 100vh;

@@ -61,6 +61,7 @@ export default {
          font-size: 14px;
         text-decoration: none;
         font-weight: bold;
+        width: auto;
       }
       .router-link-active {      
         color: #C1D72E !important;
@@ -78,7 +79,7 @@ export default {
         .tabs {
           padding: 0 10px !important;
           a {
-            font-size:12px;
+            font-size:14px;
           }
         }
       }
