@@ -71,6 +71,8 @@ const getTotalRoomActivities = (proposal) => {
     
       level.rooms.forEach( room => {
         if(room.activities === false) return 0
+
+        let rate = 1
         
         return room.activities.map(a => {
           let timeTo = a.time_to_perform_task.split(':')
