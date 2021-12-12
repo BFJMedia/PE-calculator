@@ -120,7 +120,7 @@ export default {
       width: 91vw !important;
     }  
     .proposal-texts {
-      font-size: 14px;
+      font-size: 13px;
     }
   }
   .cursor-pointer {

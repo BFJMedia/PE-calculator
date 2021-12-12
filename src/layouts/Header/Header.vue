@@ -59,6 +59,7 @@ export default {
 }
     .top-link {
       width: 50px;
+      display: flex;
     }
   .header {
     background: $primary-color;
