@@ -33,13 +33,18 @@
           @onAdd="addFrequency($event)"
           @onDelete="confirmDeleteFrequency($event)"
           @onEdit="editFrequency($event)"
+          v-model="periodicalData.selectedFrequency"
         ></custom-dropdown>
       </div>
     </div>
     <div class="form-group row">
       <label for="costPerActivity" class="col-sm-3 col-form-label text-left">Cost Per Activity</label>
       <div class="col-sm-9 ">
-        <input type="text" class="form-control-plaintext pe-input my-1" value="">      
+        <input type="text" 
+          class="form-control-plaintext pe-input my-1" value=""
+            v-model="periodicalData.cost_per_activity"
+            @change="updateProposalPeriodical"
+          >
       </div>
     </div>
     <div class="form-group row">
@@ -179,6 +184,36 @@ export default {
         }
       )
     },
+    updateProposalPeriodical: function() {
+      if (this.periodicalData.selectedPeriodical === null) return
+
+      const findIndex = this.proposal.acf.periodical_activities.findIndex(a => a.periodical.term_id === this.periodicalData.selectedPeriodical.id);
+      
+
+      if (findIndex === -1) return
+      let propposalActivities = [...this.proposal.acf.periodical_activities]
+
+       propposalActivities[findIndex] = 
+          { ...this.proposal.acf.periodical_activities[findIndex],
+            cost_per_activity: this.periodicalData.cost_per_activity
+          }
+        
+       const updatedProposal = {
+            ...this.proposal,               
+               fields: {
+                 periodical_activities:propposalActivities
+               },
+               acf: {
+                 periodical_activities: propposalActivities
+               }
+          }
+
+      this.$store.commit('updateGlobalState',{
+        prop: 'currentProposal',
+        value: updatedProposal
+      })
+      this.$store.dispatch('saveProposal')
+    }
   },
   computed: {
     currentProposal () {
@@ -223,7 +258,13 @@ export default {
           }
           ]
         } else{
-          propposalActivities =[...this.proposal.acf.periodical_activities]
+          
+          propposalActivities[findIndex] = 
+          { ...this.proposal.acf.periodical_activities[findIndex],
+            periodical: {...newVal, term_id: newVal.id}
+          }
+
+          this.periodicalData.cost_per_activity = propposalActivities[findIndex].cost_per_activity
         }
       }else{
         propposalActivities = [
@@ -250,6 +291,39 @@ export default {
         value: updatedProposal
       })
       this.$store.dispatch('saveProposal')
+      //this.periodicalData.cost_per_activity = ""
+    },
+    'periodicalData.selectedFrequency': function(newVal, oldVal){
+      if (this.periodicalData.selectedPeriodical === null) return
+
+      const findIndex = this.proposal.acf.periodical_activities.findIndex(a => a.periodical.term_id === this.periodicalData.selectedPeriodical.id);
+      
+
+      if (findIndex === -1) return
+      let propposalActivities = [...this.proposal.acf.periodical_activities]
+
+       propposalActivities[findIndex] = 
+          { ...this.proposal.acf.periodical_activities[findIndex],
+            frequency: {...newVal, term_id: newVal.id}
+          }
+        
+       const updatedProposal = {
+            ...this.proposal, 
+              
+               fields: {
+                 periodical_activities:propposalActivities
+               },
+               acf: {
+                 periodical_activities: propposalActivities
+               }
+          }
+
+      this.$store.commit('updateGlobalState',{
+        prop: 'currentProposal',
+        value: updatedProposal
+      })
+      this.$store.dispatch('saveProposal')
+      
     }
   }
 };

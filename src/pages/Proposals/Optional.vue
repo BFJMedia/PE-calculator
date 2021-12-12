@@ -26,7 +26,10 @@
     <div class="form-group row">
       <label for="staticEmail" class="col-sm-3 col-form-label text-left">Cost Per Activity</label>
       <div class="col-sm-9 ">
-        <input type="text" class="form-control-plaintext pe-input my-1" value="">      
+        <input type="text" class="form-control-plaintext pe-input my-1" 
+          v-model="optionalData.cost_per_activity"
+          @change="updateProposalOptional"
+        >      
       </div>
     </div>
     <div class="form-group row">
@@ -37,7 +40,7 @@
         <div class="form-group row">
        <label for="staticEmail" class="col-sm-3 col-form-label text-left">Total Amount</label>
         <div class="col-sm-9 total">
-           <strong>$ {{totalAmount }}</strong>
+           <strong>$ {{ totalAmount }}</strong>
         </div>
     </div>
   </div>
@@ -134,10 +137,48 @@ export default {
           }
         }
       )
-    },    
+    },
+    updateProposalOptional: function(){
+       let proposalOptionals = []
+
+      if (this.optionalData.selectedOptional === null) return
+
+      if (Array.isArray(this.proposal.acf.optional_extras)){
+          const findIndex = this.proposal.acf.optional_extras.findIndex(a => a.optional_extra.term_id === this.optionalData.selectedOptional.id);
+        if (findIndex === -1 ){
+             return
+          } else{
+            
+            proposalOptionals[findIndex] = 
+            { ...this.proposal.acf.optional_extras[findIndex],
+              cost_per_activity:  this.optionalData.cost_per_activity
+            }
+          }
+      }
+      
+      const updatedProposal = {
+            ...this.proposal, 
+              
+               fields: {
+                 optional_extras:proposalOptionals
+               },
+               acf: {
+                 optional_extras: proposalOptionals
+               }
+          }
+
+        this.$store.commit('updateGlobalState',{
+          prop: 'currentProposal',
+          value: updatedProposal
+        })
+        this.$store.dispatch('saveProposal')
+    }
   },
   computed: {
     currentProposal () {
+      return this.$store.state.currentProposal;
+    },
+    proposal () {
       return this.$store.state.currentProposal;
     },
     currentLevel () {
@@ -153,6 +194,52 @@ export default {
       return computeTotalProposal(this.currentProposal, this.$store.state.floor_activities)
     }
   }, 
+  watch: {
+     'optionalData.selectedOptional': function(newVal, oldVal) {
+      let proposalOptionals = []
+      if (Array.isArray(this.proposal.acf.optional_extras)){
+          const findIndex = this.proposal.acf.optional_extras.findIndex(a => a.optional_extra.term_id === newVal.id);
+        if (findIndex === -1 ){
+            proposalOptionals = [...this.proposal.acf.optional_extras, 
+            { cost_per_activity: 0,
+              frequency: {},
+              optional_extra: {...newVal, term_id: newVal.id}
+            }
+            ]
+          } else{
+            
+            proposalOptionals[findIndex] = 
+            { ...this.proposal.acf.optional_extras[findIndex],
+              optional_extra: {...newVal, term_id: newVal.id}
+            }
+            this.optionalData.cost_per_activity = proposalOptionals[findIndex].cost_per_activity
+          }
+      }else{
+        proposalOptionals = [
+          { cost_per_activity: 0,
+            optional_extra: {...newVal, term_id: newVal.id}
+          }
+        ]
+      }
+
+      const updatedProposal = {
+            ...this.proposal, 
+              
+               fields: {
+                 optional_extras:proposalOptionals
+               },
+               acf: {
+                 optional_extras: proposalOptionals
+               }
+          }
+
+        this.$store.commit('updateGlobalState',{
+          prop: 'currentProposal',
+          value: updatedProposal
+        })
+        this.$store.dispatch('saveProposal')
+     }
+  }
 };
 </script>
 
