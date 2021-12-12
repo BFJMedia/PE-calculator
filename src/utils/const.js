@@ -56,7 +56,8 @@ export const DEFAULT_LEVEL = {
       room_name: {}, 
       activities: [] 
     }
-  ]
+  ],
+  default: true
 }
 
 export const DEFAULT_FLOOR_ACTIVITY = {

@@ -153,7 +153,7 @@ export default {
      updateProposal(e){
 
       if (this.currentActivity === null){
-        this.$router.push({ name: 'ProposalHeader' })
+        this.$router.push({ name: 'ProposalLevel' })
       }
 
       this.formData.fields.time_taken = this.formData.fields.time_array.join(":")

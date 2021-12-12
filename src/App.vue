@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { setGlobalSettings } from '@/utils/functions'
 export default {
   name: 'App',
   components: {
@@ -23,7 +24,9 @@ export default {
     //this.$store.commit('setUser', JSON.parse(localStorage.getItem('user')))
     
     if (localStorage.getItem('user')){
-      this.$store.dispatch({ type: 'getSettings'})
+      this.$store.dispatch({ type: 'getSettings'}).then(res => {
+        setGlobalSettings(res)
+      })
     }
   }
 }

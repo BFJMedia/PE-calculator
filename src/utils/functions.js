@@ -10,6 +10,11 @@ export const SAVE_NEW_ACTIVITY = async (data) =>{
 
 
 let globalFloorActivities = [];
+export let globalSettings = {};
+
+export const setGlobalSettings = (settings) => {
+  globalSettings = {...settings.acf}
+}
 
 export const computeTotalProposal = (proposal, floorActivities) => {
   let totalHeader = getTotalHeader(proposal)
@@ -22,7 +27,7 @@ export const computeTotalProposal = (proposal, floorActivities) => {
 
 
 const getTotalHeader = (proposal) => {
-  if (proposal.acf === undefined) return 0
+  if (proposal?.acf === undefined) return 0
   const dayCleaned = proposal.acf.days_clean?.length || 0
   const daysCleanerRate = parseInt(proposal.acf.day_cleaner_rate) || 1
   const hours = parseInt(proposal.acf.hours) || 0
@@ -39,15 +44,20 @@ const getTotalFloorActivities = (proposal) => {
 
   let runningTotal = 0
 
+  if (proposal.acf.levels === undefined) return 0
+
   proposal.acf.levels.forEach(level => {
     
-    if (level.floor_activities === undefined || level.floor_activities === false) return 0
+    if (level.floor_activities === undefined || 
+      level.floor_activities === false ||
+      level.floor_activities.length === 0
+      ) return 0
 
     runningTotal += level.floor_activities.map(a=>getFloorActivityRate(a.activity, a.area )).reduce( 
       (a, b) =>  {
         return getSum(a,b)
       }
-    )
+    , 0)
     
   });
 
@@ -56,33 +66,51 @@ const getTotalFloorActivities = (proposal) => {
 
 const getTotalRoomActivities = (proposal) => {
   let runningTotal = 0
+  let weeklyRunningTotal = 0
 
-
+  
+  if (proposal.acf.levels === undefined) return 0
 
   proposal.acf.levels.forEach(level => {
     
     if (level.rooms === undefined || level.rooms === false) return 0
 
-/*     runningTotal += level.rooms.map(a=>getFloorActivityRate(a.activity, a.area )).reduce( 
-      (a, b) =>  {
-        return getSum(a,b)
-      }
-    ) */
     
+      let totalWeeklyDailyArray = []
       level.rooms.forEach( room => {
         if(room.activities === false) return 0
 
-        let rate = 1
+        let rate = 0
         
-        return room.activities.map(a => {
-          let timeTo = a.time_to_perform_task.split(':')
-          let totalHrs = timeTo[0] + (timeTo[1] / 60 ) + (timeTo[2] / 60 / 60 )
-          let totalAmt = rate *  a.quantiy
-        })
+        totalWeeklyDailyArray = room.activities.map(a => {
+          
+          let totalActivityFreq = getRoomActivityFreqRate(a)
+
+          let activityRate = parseInt(a?.rate);
+          rate = activityRate ? activityRate :  parseInt(globalSettings.rate) 
+
+          let totalWeek = a.weeks.length * rate;
+          
+          if (a.quantiy === 0 || a.quantiy === undefined) {
+            return 0
+          }
+
+          let timeTo = a.time_to_perform_task?.split(':') || 0
+          let totalHrs = ( parseInt(timeTo[0]) || 0 )+ ( ( parseInt(timeTo[1]) || 0) / 60 ) + ( (parseInt(timeTo[2]) ||0) / 60 / 60 )
+          
+          let totalAmt = totalActivityFreq *  a.quantiy * totalHrs
+          console.log(totalAmt + totalWeek, "totla activty")
+          return totalAmt + totalWeek
+
+        }) || []
+
+        runningTotal += totalWeeklyDailyArray.reduce( 
+          (a, b) =>  {
+            return getSum(a,b)
+          }
+        , 0)
 
       })
-
-    
   });
 
   return runningTotal
@@ -98,7 +126,38 @@ const getFloorActivityRate = (activity, area) => {
   if (!foundActivity) return 0
 
   const formula = foundActivity.acf.calculation.replace('=','').replace("Area",area)
-  console.log(computeArea(formula), "total same", activity)
+  
   return computeArea(formula)
 
 }
+
+const getRoomActivityFreqRate = (activity) => {
+
+  const countWeekdays = activity.frequency.filter( a => parseInt(a) < 5)
+  const countSunday = activity.frequency.filter( a => parseInt(a) === 7)
+  const countSaturday = activity.frequency.filter( a => parseInt(a) === 6)
+
+  let activityRate = parseInt(activity?.rate);
+  const rate = activityRate ? activityRate :  parseInt(globalSettings.rate) 
+
+  let totalSunday = 0
+  let totalSat = 0
+  let totalWeeks = 0
+
+  if (countSunday.length > 0 ){
+    const sunRate = parseInt(globalSettings.sunday_rate) || 0
+    totalSunday = sunRate === 0 ? rate * 1 : sunRate * 1
+  }
+
+  if (countSaturday.length > 0 ){
+    const satRate = parseInt(globalSettings.saturday_rate) 
+    totalSat = satRate === 0 ? rate * 1 : satRate * 1
+  }
+
+  if (countWeekdays.length > 0 ){    
+    totalWeeks =rate * countWeekdays.length
+  }
+  return totalSunday + totalSat + totalWeeks
+}
+
+// const getWeeklyTotalActivity = activity
