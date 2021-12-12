@@ -56,6 +56,14 @@
       </div>
     </div>
     <div class="form-group row">
+      <label for="staticEmail" class="col-sm-3 col-form-label text-left">Rate:</label>
+      <div class="col-sm-9 ">
+        <input type="text" class="form-control-plaintext pe-input my-1" v-model="formData.fields.rate"
+        @change="updateProposal"
+        >
+      </div>
+    </div>
+    <div class="form-group row">
       <label for="staticEmail" class="col-sm-3 col-form-label text-left">Time taken</label>
       <div class="col-sm-9 ">
             <div class="flex-80 flex-row">

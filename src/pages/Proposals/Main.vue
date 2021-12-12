@@ -15,7 +15,8 @@
       
     </div>
   
-    <div class="row py-1 proposal-texts" v-for="p in proposals" :key="p.id">      
+    <div v-if="floorActivities" >      
+    <div class="row py-1 proposal-texts" v-for="p in proposals" :key="p.id" >      
       <div class="col-6 pr-1 pr-m-3">
         <div class="green-bg text-left cursor-pointer proposal-title" @click="setCurrentProposal(p)">
           {{ p.title.rendered}}
@@ -31,6 +32,7 @@
             $ {{ totalAmount(p)}}
         </div>
       </div>      
+    </div>
     </div>
   </div>
 </template>
@@ -82,7 +84,7 @@ export default {
       this.$router.push({ name: 'ProposalHeader' })
     },
     totalAmount (proposal){
-      return parseFloat(                                  )
+      return parseFloat( computeTotalProposal(proposal, this.$store.state.floor_activities ))
     }
   },
   computed: {

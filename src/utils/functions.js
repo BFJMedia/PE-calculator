@@ -22,6 +22,8 @@ export const computeTotalProposal = (proposal, floorActivities) => {
   let totalActivities = getTotalFloorActivities(proposal, floorActivities)
   let totalRoomActivities = getTotalRoomActivities(proposal)
 
+  console.log(totalRoomActivities, 'computed total room')
+
   return totalHeader + totalRoomActivities + totalActivities
 }
 
@@ -91,14 +93,14 @@ const getTotalRoomActivities = (proposal) => {
 
           let totalWeek = a.weeks.length * rate;
           
-          if (a.quantiy === 0 || a.quantiy === undefined) {
+          if (a.quantity === 0 || a.quantity === undefined) {
             return 0
           }
 
           let timeTo = a.time_to_perform_task?.split(':') || 0
           let totalHrs = ( parseInt(timeTo[0]) || 0 )+ ( ( parseInt(timeTo[1]) || 0) / 60 ) + ( (parseInt(timeTo[2]) ||0) / 60 / 60 )
           
-          let totalAmt = totalActivityFreq *  a.quantiy * totalHrs
+          let totalAmt = totalActivityFreq *  a.quantity * totalHrs
           console.log(totalAmt + totalWeek, "totla activty")
           return totalAmt + totalWeek
 
@@ -121,9 +123,9 @@ const getFloorActivityRate = (activity, area) => {
     return new Function('return ' + fn)();
   }
 
-  const foundActivity = globalFloorActivities.find(a => a.term_id = activity.term_id);
+  const foundActivity = globalFloorActivities?.find(a => a.term_id = activity.term_id) || -1;
 
-  if (!foundActivity) return 0
+  if (!foundActivity || foundActivity === -1) return 0
 
   const formula = foundActivity.acf.calculation.replace('=','').replace("Area",area)
   
