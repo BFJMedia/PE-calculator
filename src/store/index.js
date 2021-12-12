@@ -65,7 +65,7 @@ export default new Vuex.Store({
           method: 'GET'
         }).then((res) => {              
             commit('updateSettings', res)
-            resolve(true)
+            resolve(res)
         }).catch((err) => {
           reject(err)
         })
@@ -86,12 +86,15 @@ export default new Vuex.Store({
         })
       })
     },
-    async createNewProposal ({commit}){
+    async createNewProposal ({commit, state}){
       await request(PE_PROPOSALS, {
         method: 'POST',
         body: JSON.stringify({
           title: 'New Proposal - edit title',
-          status: 'publish'
+          status: 'publish', 
+          fields: {
+            days_clean: [...state.settings.acf.days]
+          }
         }),
         headers: {
           "Content-Type": "application/json",
