@@ -95,7 +95,6 @@ export default {
   #ProposalHeader{
   .top-link {
     width: 40px;
-    margin: 0 5px;
     display: flex;
     align-items: center;
     justify-content: center;

@@ -82,7 +82,7 @@ export default {
       this.$router.push({ name: 'ProposalHeader' })
     },
     totalAmount (proposal){
-      return parseFloat(                                  )
+      return parseFloat(proposal)
     }
   },
   computed: {
@@ -118,7 +118,7 @@ export default {
       width: 91vw !important;
     }  
     .proposal-texts {
-      font-size: 14px;
+      font-size: 13px;
     }
   }
   .cursor-pointer {
