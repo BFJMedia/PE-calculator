@@ -124,6 +124,8 @@ const getFloorActivityRate = (activity, area) => {
     return new Function('return ' + fn)();
   }
 
+  if (activity === null) return;
+
   const foundActivity = globalFloorActivities?.find(a => a.term_id = activity.term_id) || -1;
 
   if (!foundActivity || foundActivity === -1) return 0
