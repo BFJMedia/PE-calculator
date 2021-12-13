@@ -1,5 +1,6 @@
 //export const API_DOMAIN = 'http://localhost:8013/'
-export const API_DOMAIN = 'https://planetearthcleaning.com.au/'
+export const API_DOMAIN = 'https://hallowed-mind.flywheelstaging.com/'
+// Live
 //export const API_DOMAIN = 'https://planetearthcleaning.com.au/'
 export const API_URL = `${API_DOMAIN}wp-json/`
 export const PE_URL = `${API_URL}planet-earth/v1`
