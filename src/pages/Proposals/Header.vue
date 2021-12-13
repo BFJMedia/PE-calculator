@@ -265,6 +265,13 @@ export default {
       margin-bottom: 10px !important;
     }
   }
+
+  // .form-group.row:last-child {
+  //     position: absolute;
+  //     bottom: 63px;
+  //     left: 0;
+  //     padding: 0 1em;
+  // }
   .currency {
     text-align: right !important;
     padding-right: 10px!important;
@@ -278,6 +285,12 @@ export default {
     background: #C1D72E;
     color: #232323;    
     padding: 5px;
+  }
+  .bottom-80 {
+    position: absolute;
+    bottom: 63px;
+    left: 0;
+    padding: 0 1em;
   }
   
 </style>
