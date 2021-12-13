@@ -22,7 +22,7 @@ export const computeTotalProposal = (proposal, floorActivities) => {
   let totalActivities = getTotalFloorActivities(proposal, floorActivities)
   let totalRoomActivities = getTotalRoomActivities(proposal)
 
-  console.log(totalRoomActivities, 'computed total room')
+  console.log(totalRoomActivities, 'computed total room here')
 
   return totalHeader + totalRoomActivities + totalActivities
 }
@@ -124,7 +124,7 @@ const getFloorActivityRate = (activity, area) => {
     return new Function('return ' + fn)();
   }
 
-  if (activity === null) return;
+  if (activity === null) return 0;
 
   const foundActivity = globalFloorActivities?.find(a => a.term_id = activity.term_id) || -1;
 
