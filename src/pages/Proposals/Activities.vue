@@ -36,6 +36,7 @@
           :options="globalActivities"
           :default="selectedActivityText"
           class="select"
+          v-model="selectedActivity"
         ></custom-dropdown>
       </div>
     </div>
@@ -68,7 +69,6 @@
       <div class="col-sm-9 ">
             <div class="flex-80 flex-row">
               <input type="text" required="required" autofocus="autofocus" placeholder="hrs" class="act-ttpt act-hrs mr-15"
-              
                 v-model="formData.fields.time_array[0]"
                 @change="updateProposal">
               <input type="text" required="required" autofocus="autofocus" placeholder="min" class="act-ttpt act-min mr-15"
@@ -125,7 +125,7 @@
 
 <script>
 
-import { DAY_OPTIONS, WEEK_OPTIONS,PE_PROPOSALS } from "@/utils/const";
+import { DAY_OPTIONS, WEEK_OPTIONS,PE_PROPOSALS, DEFAULT_ACTIVITY } from "@/utils/const";
 import request from '@/helpers/fetchWrapper'
 import { mapGetters, mapState } from 'vuex'
 import { computeTotalProposal } from '@/utils/functions'
@@ -147,7 +147,8 @@ export default {
           time_taken: '',
           time_array: [0,0,0],
         }
-      }
+      },
+      selectedActivity: null
     };
   },
 
@@ -235,6 +236,7 @@ export default {
     currentLevel () {
       return this.$store.state.currentProposalLevel || {name: "None selected"};
     },
+    
     globalRooms () { return this.$store.state.rooms;},
     globalActivities () {return this.$store.state.activities; },  
     proposal_id () {
@@ -268,7 +270,78 @@ export default {
         this.activities = this.globalActivities
       }
     },
+    selectedActivity: function(newVal, oldVal) {      
+      
+    if ( this.currentRoom.name ==='None selected') return
 
+    let newActivity = {}
+
+     let activityIndex = this.$store.state.currentRoom.activities === undefined || this.$store.state.currentRoom.activities === false? -1 : this.$store.state.currentRoom.activities.findIndex(a => a.activity.term_id === newVal.id )
+    // activity not yet in room activities
+     if (activityIndex === -1){
+      const currentRoomIndex = this.$store.state.currentProposalLevel.rooms.findIndex(a => a.room_name.term_id === this.currentRoom.room_name.id ||
+      a.room_name.id === this.currentRoom.room_name.id )
+
+      let theRoom = { ...this.currentRoom }
+
+      newActivity = {...DEFAULT_ACTIVITY, activity: {...newVal, term_id: newVal.id}}
+
+      theRoom.activities = [ ...theRoom.activities || [], newActivity ]
+
+      this.$store.commit('updateGlobalState', {
+        prop: 'currentRoom',
+        value: {...theRoom }
+      })
+
+          let updatedLevel = {...this.currentLevel, rooms: this.currentLevel.rooms.map((a, i)=>{
+              if (i === currentRoomIndex ){
+                return {...theRoom}
+              }            
+              return a
+            }) 
+          }
+                
+        this.$store.commit('updateGlobalState', {
+          prop: 'currentProposalLevel',
+          value: {...updatedLevel }
+        })
+
+        const updatedLevels = this.currentProposal.acf.levels.map( 
+          (a, i)  => {
+            if (i === this.currentProposalLevelIndex){
+              return {...updatedLevel}
+            }
+            return a
+        })
+
+        const updatedProposal = {
+          ...this.currentProposal,
+            fields: {
+              levels: updatedLevels
+            },
+            acf: {
+              levels: updatedLevels
+            }
+        }
+
+          this.$store.commit('updateGlobalState',{
+            prop: 'currentProposal',
+            value: {...updatedProposal}
+        })
+
+        this.$store.dispatch('saveProposal')
+     }
+
+
+
+
+      if (newVal !== oldVal){
+        this.$store.commit('updateGlobalState', {
+          prop: 'currentActivity',
+          value: activityIndex === -1 ? newActivity : this.$store.state.currentRoom.activities[activityIndex]
+        })        
+      }
+    }
   }
 };
 </script>

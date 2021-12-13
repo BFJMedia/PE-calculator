@@ -66,6 +66,7 @@ const getTotalFloorActivities = (proposal) => {
   return  Math.round(runningTotal)
 }
 
+
 const getTotalRoomActivities = (proposal) => {
   let runningTotal = 0
   let weeklyRunningTotal = 0
@@ -86,7 +87,7 @@ const getTotalRoomActivities = (proposal) => {
         
         totalWeeklyDailyArray = room.activities.map(a => {
           
-          let totalActivityFreq = getRoomActivityFreqRate(a)
+          let totalActivityFreq = getRoomActivityFreqRate(a, proposal)
 
           let activityRate = parseInt(a?.rate);
           rate = activityRate ? activityRate :  parseInt(globalSettings.rate) 
@@ -133,26 +134,30 @@ const getFloorActivityRate = (activity, area) => {
 
 }
 
-const getRoomActivityFreqRate = (activity) => {
+const getRoomActivityFreqRate = (activity, proposal) => {
 
   const countWeekdays = activity.frequency.filter( a => parseInt(a) < 5)
   const countSunday = activity.frequency.filter( a => parseInt(a) === 7)
   const countSaturday = activity.frequency.filter( a => parseInt(a) === 6)
 
+  const proposalRate = parseInt(proposal.acf.rate) || 0;
+  const proposalSatRate = parseInt(proposal.acf.saturday_rate) || 0;
+  const proposalSunRate = parseInt(proposal.acf.sunday_rate) || 0;
+
   let activityRate = parseInt(activity?.rate);
-  const rate = activityRate ? activityRate :  parseInt(globalSettings.rate) 
+  const rate = activityRate ? activityRate : proposalRate > 0 ? proposalRate : parseInt(globalSettings.rate) 
 
   let totalSunday = 0
   let totalSat = 0
   let totalWeeks = 0
 
   if (countSunday.length > 0 ){
-    const sunRate = parseInt(globalSettings.sunday_rate) || 0
+    const sunRate = proposalSunRate > 0 ? proposalSunRate : parseInt(globalSettings.sunday_rate) || 0
     totalSunday = sunRate === 0 ? rate * 1 : sunRate * 1
   }
 
   if (countSaturday.length > 0 ){
-    const satRate = parseInt(globalSettings.saturday_rate) 
+    const satRate =  proposalSatRate > 0 ? proposalSatRate : parseInt(globalSettings.saturday_rate) 
     totalSat = satRate === 0 ? rate * 1 : satRate * 1
   }
 
