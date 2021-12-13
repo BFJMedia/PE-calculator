@@ -22,7 +22,7 @@ export const computeTotalProposal = (proposal, floorActivities) => {
   let totalActivities = getTotalFloorActivities(proposal, floorActivities)
   let totalRoomActivities = getTotalRoomActivities(proposal)
 
-  console.log(totalRoomActivities, 'computed total room')
+  console.log(totalRoomActivities, 'computed total room here')
 
   return totalHeader + totalRoomActivities + totalActivities
 }
@@ -101,7 +101,7 @@ const getTotalRoomActivities = (proposal) => {
           let timeTo = a.time_to_perform_task?.split(':') || 0
           let totalHrs = ( parseInt(timeTo[0]) || 0 )+ ( ( parseInt(timeTo[1]) || 0) / 60 ) + ( (parseInt(timeTo[2]) ||0) / 60 / 60 )
           
-          let totalAmt = totalActivityFreq *  a.quantity * totalHrs
+          let totalAmt = totalActivityFreq *  parseInt(a.quantity) * totalHrs
           console.log(totalAmt + totalWeek, "totla activty")
           return totalAmt + totalWeek
 
@@ -124,7 +124,7 @@ const getFloorActivityRate = (activity, area) => {
     return new Function('return ' + fn)();
   }
 
-  if (activity === null) return;
+  if (activity === null) return 0;
 
   const foundActivity = globalFloorActivities?.find(a => a.term_id = activity.term_id) || -1;
 
