@@ -70,7 +70,7 @@ export default {
             class="flex-60"
             @click="
               selected = option[keyName];
-              open = true;
+              open = false;
               $emit('input', option);
               emitSelect()
             "

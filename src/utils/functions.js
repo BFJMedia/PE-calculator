@@ -101,7 +101,7 @@ const getTotalRoomActivities = (proposal) => {
           let timeTo = a.time_to_perform_task?.split(':') || 0
           let totalHrs = ( parseInt(timeTo[0]) || 0 )+ ( ( parseInt(timeTo[1]) || 0) / 60 ) + ( (parseInt(timeTo[2]) ||0) / 60 / 60 )
           
-          let totalAmt = totalActivityFreq *  a.quantity * totalHrs
+          let totalAmt = totalActivityFreq *  parseInt(a.quantity) * totalHrs
           console.log(totalAmt + totalWeek, "totla activty")
           return totalAmt + totalWeek
 
