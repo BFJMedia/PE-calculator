@@ -146,6 +146,8 @@ const getRoomActivityFreqRate = (activity, proposal) => {
   const proposalSatRate = parseInt(proposal.acf.saturday_rate) || 0;
   const proposalSunRate = parseInt(proposal.acf.sunday_rate) || 0;
 
+  console.log(proposalRate, proposal, 'proposal rate')
+
   let activityRate = parseInt(activity?.rate);
   const rate = activityRate ? activityRate : proposalRate > 0 ? proposalRate : parseInt(globalSettings.rate) 
 
