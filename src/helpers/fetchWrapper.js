@@ -23,8 +23,6 @@ const request = (url, options, isJson = true) => {
   const token = localData ? (JSON.parse(localData)).token : ''
   // eslint-disable-next-line no-param-reassign
   
-  
-
   options.headers = {...options.headers, 
     'Cache-Control': 'no-cache',
     'Access-Control-Allow-Origin':'*'
@@ -67,7 +65,7 @@ const request = (url, options, isJson = true) => {
         .then(parseJSON(isJson))
         .then((response) => {
           // some validation return 422, already handled in (then/resolve)
-          if (response.status !== 401) {
+          if (response.status === 200) {
             return resolve(response.json)
           }
           // extract the error from the server's json
