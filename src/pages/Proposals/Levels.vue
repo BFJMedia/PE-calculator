@@ -150,7 +150,9 @@ export default {
 
       const vm = this
       
-      const updatedLevels = vm.proposal.fields.levels.map((a) =>{
+      const updatedLevels = vm.proposal.fields.levels.map((a) => {
+
+        if (a.level === null) return a;
 
         if (a.floor_activities && vm.currentProposalLevel.level.term_id === a.level.term_id){
 
@@ -253,6 +255,9 @@ export default {
   }, */
   computed: {
     currentProposal () {
+      return this.$store.state.currentProposal;
+    },
+    propoosal () {
       return this.$store.state.currentProposal;
     },
     globalLevels () {
