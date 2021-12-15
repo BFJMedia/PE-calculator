@@ -65,7 +65,7 @@ const request = (url, options, isJson = true) => {
         .then(parseJSON(isJson))
         .then((response) => {
           // some validation return 422, already handled in (then/resolve)
-          if (response.status === 200) {
+          if (response.status === 200 || response.status === 201) {
             return resolve(response.json)
           }
           // extract the error from the server's json

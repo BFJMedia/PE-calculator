@@ -132,7 +132,7 @@ export default {
           "Content-Type": "application/json",
         },
         }).then((res) => {             
-          res.updateAll = false 
+          res.refresh = false 
             this.$store.commit('updateCurrentProposal', res)
         }).catch((err) => {
           console.log(err)

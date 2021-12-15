@@ -88,24 +88,37 @@ export default new Vuex.Store({
         })
       })
     },
-    async createNewProposal ({commit, state}){
-      await request(PE_PROPOSALS, {
-        method: 'POST',
-        body: JSON.stringify({
-          title: 'New Proposal',
-          status: 'publish', 
-          fields: {
-            days_clean: [...state.settings.acf.days]
-          }
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((res) => {              
-          res.updateAll = true
-          commit('updateCurrentProposal', res)
-      }).catch((err) => {
-        console.log(err)
+    createNewProposal ({commit, state}){
+
+      return new Promise( (resolve, reject) => {
+
+          request(PE_PROPOSALS, {
+            method: 'POST',
+            body: JSON.stringify({
+              title: 'New Proposal',
+              status: 'publish', 
+              fields: {
+                days_clean: [...state.settings.acf.days],
+                rate: state.settings.acf.rate,
+                saturday_rate: state.settings.acf.saturday_rate || "",
+                sunday_rate: state.settings.acf.sunday_rate || "",
+                day_cleaner_rate: state.settings.acf.day_cleaner_rate || "",
+                hours: state.settings.acf.hours || "",
+              }
+            }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }).then((res) => {
+              console.log(res, 'result here')
+              let proposal = {...res, refresh: true}
+              commit('updateCurrentProposal', proposal)
+              resolve(true)
+          }).catch( (err) => {
+            console.log(err, "error encountered")
+            reject (err)
+          })
+        
       })
     },
 
@@ -127,7 +140,7 @@ export default new Vuex.Store({
             "Content-Type": "application/json",
           },
         }).then((res) => {  
-            res.updateAll = false            
+            res.refresh = false            
             commit('updateCurrentProposal', res)
             resolve (true)
           }).catch((err) => {
@@ -151,7 +164,7 @@ export default new Vuex.Store({
             "Content-Type": "application/json",
           },
         }).then((res) => {  
-            res.updateAll = false            
+            res.refresh = false            
             resolve (true)
           }).catch((err) => {
             console.log(err)
