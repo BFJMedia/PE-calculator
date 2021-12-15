@@ -156,7 +156,7 @@ export default {
 
   mounted() {
     this.formData.fields = {...this.currentActivity}
-    this.formData.fields.time_array = this.currentActivity.time_to_perform_task.split(':')
+    this.formData.fields.time_array = Array.isArray(this.currentActivity.time_to_perform_task) ? this.currentActivity.time_to_perform_task : this.currentActivity.time_to_perform_task.split(':') || [0,0,0]
     this.formData.fields.frequency = Array.isArray (this.currentActivity.frequency) ? this.currentActivity.frequency : []
   },
 

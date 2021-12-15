@@ -22,7 +22,7 @@ export const computeTotalProposal = (proposal, floorActivities) => {
   let totalActivities = getTotalFloorActivities(proposal, floorActivities)
   let totalRoomActivities = getTotalRoomActivities(proposal)
 
-  return totalHeader + totalRoomActivities + totalActivities
+  return parseFloat(totalHeader + totalRoomActivities + totalActivities).toFixed(2)
 }
 
 
