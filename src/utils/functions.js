@@ -22,8 +22,6 @@ export const computeTotalProposal = (proposal, floorActivities) => {
   let totalActivities = getTotalFloorActivities(proposal, floorActivities)
   let totalRoomActivities = getTotalRoomActivities(proposal)
 
-  console.log(totalRoomActivities, 'computed total room here')
-
   return totalHeader + totalRoomActivities + totalActivities
 }
 
@@ -35,7 +33,7 @@ const getTotalHeader = (proposal) => {
   const hours = parseInt(proposal.acf.hours) || 0
   const totalDaysClean = (dayCleaned * hours) * daysCleanerRate 
 
-  return totalDaysClean
+  return totalDaysClean * 52 / 12
 }
 
 function getSum(total, num) {  
@@ -63,7 +61,7 @@ const getTotalFloorActivities = (proposal) => {
     
   });
 
-  return  Math.round(runningTotal)
+  return  Math.round(runningTotal * 52 / 12)
 }
 
 
@@ -158,15 +156,18 @@ const getRoomActivityFreqRate = (activity, proposal) => {
   if (countSunday.length > 0 ){
     const sunRate = proposalSunRate > 0 ? proposalSunRate : parseInt(globalSettings.sunday_rate) || 0
     totalSunday = sunRate === 0 ? rate * 1 : sunRate * 1
+    totalSunday = totalSunday * 52 / 12
   }
 
   if (countSaturday.length > 0 ){
     const satRate =  proposalSatRate > 0 ? proposalSatRate : parseInt(globalSettings.saturday_rate) 
     totalSat = satRate === 0 ? rate * 1 : satRate * 1
+    totalSat = totalSat * 52 / 12
   }
 
   if (countWeekdays.length > 0 ){    
     totalWeeks =rate * countWeekdays.length
+    totalWeeks = totalWeeks * 52 / 12
   }
   return totalSunday + totalSat + totalWeeks
 }
