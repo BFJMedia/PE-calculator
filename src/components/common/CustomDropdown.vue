@@ -74,7 +74,7 @@ export default {
               $emit('input', option);
               emitSelect()
             "
-          >&nbsp;</div>
+          ><span @click="$event.target.classList.add('active')" class="select-btn">Select</span></div>
           <div class="flex-40 button-div">
             <button
               type="button"

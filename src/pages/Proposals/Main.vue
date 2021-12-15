@@ -112,9 +112,23 @@ export default {
     max-height: 29px;
     overflow: hidden;
   }
-    .proposal-texts {
-      font-size: 14px;
-    }
+  .proposal-texts {
+    font-size: 14px;
+  }
+  .flex-60 {
+    text-align: center;
+  }
+  span.select-btn {
+    padding: 5px 20px;
+    color: #0098a7;
+    background-color: #d0e8ec;
+    border-radius: 6px;
+    font-size: 12px;
+  }
+  span.select-btn.active {
+    color: #d0e8ec;
+    background-color: #0098a7;
+  }
   @media screen and (max-width: 375px) and (min-width: 200px) {
     .container {
       width: 91vw !important;
