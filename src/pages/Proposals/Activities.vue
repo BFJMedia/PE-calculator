@@ -332,6 +332,18 @@ export default {
         })
 
         this.$store.dispatch('saveProposal')
+
+       this.formData.fields = {
+           
+              days: [],
+              weeks: [],
+              quantity: 0,
+              text_to_display: '',
+              time_taken: '',
+              time_array: [0,0,0]
+           
+          }
+     
      }
 
 
