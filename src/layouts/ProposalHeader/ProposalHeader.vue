@@ -78,7 +78,7 @@ export default {
     deleteProposal: function(e){
       this.$store.dispatch('deleteProposal').then(res => {
         if (res){
-           this.$router.push({ name: 'HomeProposals' })
+           this.$router.push({ name: 'Proposals' })
         }
       })
     }
