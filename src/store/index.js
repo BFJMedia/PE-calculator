@@ -38,9 +38,11 @@ export default new Vuex.Store({
     updateCurrentProposal(state, payload){
       state.currentProposal = { ...payload}
       state.currentProposal.fields = state.currentProposal.acf
-      state.currentProposalLevel = null
-      state.currentRoom = null
-      state.currentActivity = null
+      if (payload.refresh){
+        state.currentProposalLevel = null
+        state.currentRoom = null
+        state.currentActivity = null
+      }
     },
     setUser(state, payload){
       state.currentUser = { ...payload}
@@ -100,6 +102,7 @@ export default new Vuex.Store({
           "Content-Type": "application/json",
         },
       }).then((res) => {              
+          res.updateAll = true
           commit('updateCurrentProposal', res)
       }).catch((err) => {
         console.log(err)
@@ -125,7 +128,8 @@ export default new Vuex.Store({
           headers: {
             "Content-Type": "application/json",
           },
-        }).then((res) => {              
+        }).then((res) => {  
+            res.updateAll = false            
             commit('updateCurrentProposal', res)
             resolve (true)
           }).catch((err) => {
