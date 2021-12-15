@@ -1,4 +1,4 @@
-//export const API_DOMAIN = 'http://localhost:8013/'
+// export const API_DOMAIN = 'http://planet-earth-cleaning-live.local/'
 // export const API_DOMAIN = 'http://hallowed-mind.flywheelstaging.com/'
 // Live
 export const API_DOMAIN = 'https://planetearthcleaning.com.au/'

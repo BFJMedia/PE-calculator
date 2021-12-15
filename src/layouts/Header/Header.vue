@@ -57,9 +57,12 @@ export default {
 .icons.float-l .top-link:last-child img {
     width: 31px;
 }
-    .top-link {
-      width: 50px;
-      display: flex;
+    .header.m-0 .top-link {
+        width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
     }
   .header {
     background: $primary-color;

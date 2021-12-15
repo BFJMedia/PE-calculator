@@ -524,6 +524,8 @@ export default {
     // margin: 0 5px;
     text-decoration: none;
     border: none;
+    line-height: 4px;
+    font-family: monospace;
   }
   .plus::after,
   .plus {

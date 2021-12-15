@@ -77,7 +77,6 @@ export default {
     @media screen and (max-width: 649px) and (min-width: 1px) {      
       .footer {
         .tabs {
-          padding: 0 10px !important;
           a {
             font-size:14px; 
           }

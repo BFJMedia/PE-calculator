@@ -102,7 +102,7 @@ const getTotalRoomActivities = (proposal) => {
           let totalHrs = ( parseInt(timeTo[0]) || 0 )+ ( ( parseInt(timeTo[1]) || 0) / 60 ) + ( (parseInt(timeTo[2]) ||0) / 60 / 60 )
           
           let totalAmt = totalActivityFreq *  parseInt(a.quantity) * totalHrs
-          console.log(totalAmt + totalWeek, "totla activty")
+          console.log(totalAmt + totalWeek, "total activty")
           return totalAmt + totalWeek
 
         }) || []
