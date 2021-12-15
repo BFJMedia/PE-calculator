@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="footer" v-if="$route.name!='proposals'">
     <div class="tabs">
       <router-link class="" :to="{ name: 'SettingsFloors' }">Floors</router-link>
       <router-link class="" :to="{ name: 'SettingsRooms' }">Rooms</router-link>

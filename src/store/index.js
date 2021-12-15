@@ -92,7 +92,7 @@ export default new Vuex.Store({
       await request(PE_PROPOSALS, {
         method: 'POST',
         body: JSON.stringify({
-          title: 'New Proposal - edit title',
+          title: 'New Proposal',
           status: 'publish', 
           fields: {
             days_clean: [...state.settings.acf.days]
