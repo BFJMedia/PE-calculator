@@ -80,6 +80,7 @@ export default {
       })
     },
     setCurrentProposal(p){      
+      p.updateAll = false
       this.$store.commit('updateCurrentProposal', p)
       this.$router.push({ name: 'ProposalHeader' })
     },

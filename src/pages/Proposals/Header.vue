@@ -211,7 +211,8 @@ export default {
         headers: {
           "Content-Type": "application/json",
         },
-        }).then((res) => {              
+        }).then((res) => {
+            res.updateAll = false
             this.$store.commit('updateCurrentProposal', res)
         }).catch((err) => {
           console.log(err)

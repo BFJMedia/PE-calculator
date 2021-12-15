@@ -152,7 +152,7 @@ export default {
       
       const updatedLevels = vm.proposal.fields.levels.map((a) => {
 
-        if (a.level === null) return a;
+        if (a.level === null && vm.currentProposalLevel.level===null) return a;
 
         if (a.floor_activities && vm.currentProposalLevel.level.term_id === a.level.term_id){
 
