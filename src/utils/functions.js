@@ -44,6 +44,7 @@ const getTotalFloorActivities = (proposal) => {
 
   let runningTotal = 0
 
+  if (proposal === null) return 0
   if (proposal.acf.levels === undefined) return 0
 
   proposal.acf.levels.forEach(level => {
