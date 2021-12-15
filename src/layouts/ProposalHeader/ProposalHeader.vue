@@ -68,12 +68,20 @@ export default {
           */
           callback: confirm => {
             if (confirm) {
-              //this.deleteRoom(currentRoomId);
+              this.deleteProposal(e);
             }
           }
         }
       )
     },
+
+    deleteProposal: function(e){
+      this.$store.dispatch('deleteProposal').then(res => {
+        if (res){
+           this.$router.push({ name: 'HomeProposals' })
+        }
+      })
+    }
     
   },
   computed: {

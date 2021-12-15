@@ -109,8 +109,6 @@ export default new Vuex.Store({
       })
     },
 
-  
-
     saveProposal ({commit, state}, params) {
 
       let updatedProposal = {...state.currentProposal}
@@ -139,9 +137,29 @@ export default new Vuex.Store({
 
       })
 
-    
-
     },
+    deleteProposal( {commit, state}) {
+      
+      let updatedProposal = {...state.currentProposal}
+
+      return new Promise((resolve, reject) => {
+
+        request(`${PE_PROPOSALS}/${state.currentProposal.id}`, {
+          method: 'DELETE',
+          body: JSON.stringify(updatedProposal),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => {  
+            res.updateAll = false            
+            resolve (true)
+          }).catch((err) => {
+            console.log(err)
+            reject (err)
+        })
+
+      })
+    }
 /*     computeTotalProposal({commit, state}) {
       
     },
