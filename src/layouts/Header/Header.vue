@@ -7,7 +7,12 @@
         <img src="@/assets/icons/0.75x/home-white.png" class="icon home"/></router-link>
  
       <router-link to="/settings" title="settings" class="top-link"><img src="@/assets/icons/0.75x/settings-white.png" class="icon settings"/></router-link>
-      <div class="icon center col-2"></div>
+      <button class="btn edit-btn top-link m-0" title="edit" v-bind:class="{ 'hide-icons': $route.path == '/settings' }">
+        <img src="@/assets/icons/0.75x/download-icon.png" class="icon download"/>
+      </button>
+      <button class="btn edit-btn top-link m-0" title="edit" v-bind:class="{ 'hide-icons': $route.path == '/settings' }" @click="openNewProposal">
+        <img src="@/assets/icons/0.75x/add-icon-white.png" class="icon add"/>
+      </button>
  
     </div>
     </div>
@@ -63,6 +68,9 @@ export default {
         align-items: center;
         justify-content: center;
         height: 40px;
+    }
+    .btn.hide-icons {
+      display: none !important;
     }
   .header {
     background: $primary-color;

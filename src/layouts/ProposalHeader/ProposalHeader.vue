@@ -7,16 +7,16 @@
       class="top-link"><img src="@/assets/icons/0.75x/home-white.png" class="icon home"/></router-link>
       <router-link to="/settings" title="settings"
       class="top-link"><img src="@/assets/icons/0.75x/settings-white.png" class="icon settings"/></router-link>
-      <button class="btn edit-btn top-link m-0" title="edit" v-if="showAddNew">
+      <button class="btn edit-btn top-link m-0" title="edit">
         <img src="@/assets/icons/0.75x/download-icon.png" class="icon download"/>
       </button>
-      <button class="btn edit-btn top-link m-0" title="edit" v-if="showAddNew" @click="openNewProposal">
+      <button class="btn edit-btn top-link m-0" title="edit" @click="openNewProposal">
         <img src="@/assets/icons/0.75x/add-icon-white.png" class="icon add"/>
       </button>
     </div>
     <div class="icon center col-1 col-md-2"></div>
       <div class="icons col-4">
-        <div class="icons d-block" v-if="showDuplicateRemove">
+        <div class="icons d-block" v-if="showDuplicateRemove" v-bind:class="{ 'hide-icons': $route.path == '/proposals' }">
           
           <button class="btn remove-btn top-link float-right" title="remove"><img src="@/assets/icons/0.75x/delete-icon.png" class="icon remove" @click="confirmDeleteProposal"/></button>
           <button class="btn duplicate-btn top-link float-right" title="duplicate"><img src="@/assets/icons/0.75x/duplicate-icon.png" class="icon duplicate" /></button>
@@ -113,7 +113,7 @@ export default {
     justify-content: center;
   }
   .d-block {
-    display: block !important;
+    justify-content: end;
   }
   .header {
     background: $primary-color;
@@ -165,7 +165,6 @@ export default {
         background-color: adjust-hue($color: #000, $degrees: 0);
       }
     }
-
     }
 
     @media screen and (max-width: 649px) and (min-width: 1px) {      

@@ -132,6 +132,9 @@ export default {
     color: #d0e8ec;
     background-color: #0098a7;
   }
+  .icons.d-block.hide-icons {
+    display: none !important;
+  }
   @media screen and (max-width: 375px) and (min-width: 200px) {
     .container {
       width: 91vw !important;
