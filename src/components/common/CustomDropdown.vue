@@ -75,7 +75,7 @@ export default {
               emitSelect()
             "
           ><span @click="$event.target.classList.add('active')" class="select-btn">Select</span></div>
-          <div class="flex-40 button-div">
+          <div class="flex-40 button-div" v-if="hideRemove">
             <button
               type="button"
               class="btn-black minus"
@@ -98,7 +98,11 @@ export default {
       addInputText: "",
     };
   },
-  computed: {},
+  computed: {
+    hideRemove() {
+       return this.$route.path === '/settings/floors' || this.$route.path === '/settings/rooms' || this.$route.path === '/settings/activities'
+ || this.$route.path === '/settings/periodicals' || this.$route.path === '/settings/optionals'     },
+  },
   methods: {
     mounted() {
       this.$emit("input", this.selected);
