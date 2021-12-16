@@ -32,7 +32,7 @@ export default {
       <div class="selected" :class="{ open: open }" @click="open = !open" v-html="selected">
       </div>
       <div class="items" :class="{ selectHide: !open }">
-        <div class="flex-row input-holder" :tabindex="tabindex">
+        <div class="flex-row input-holder" :tabindex="tabindex" v-if="!hideRemove">
           <input
             type="text"
             name="add-new-entity"
@@ -75,7 +75,7 @@ export default {
               emitSelect()
             "
           ><span @click="$event.target.classList.add('active')" class="select-btn">Select</span></div>
-          <div class="flex-40 button-div" v-if="hideRemove">
+          <div class="flex-40 button-div" v-if="!hideRemove">
             <button
               type="button"
               class="btn-black minus"
@@ -100,8 +100,8 @@ export default {
   },
   computed: {
     hideRemove() {
-       return this.$route.path === '/settings/floors' || this.$route.path === '/settings/rooms' || this.$route.path === '/settings/activities'
- || this.$route.path === '/settings/periodicals' || this.$route.path === '/settings/optionals'     },
+       return this.$route.path === '/proposals/levels' || this.$route.path === '/proposals/periodicals'   
+    },
   },
   methods: {
     mounted() {
