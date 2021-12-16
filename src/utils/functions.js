@@ -44,6 +44,7 @@ const getTotalFloorActivities = (proposal) => {
 
   let runningTotal = 0
 
+  if (proposal === null) return 0
   if (proposal.acf.levels === undefined) return 0
 
   proposal.acf.levels.forEach(level => {
@@ -69,6 +70,7 @@ const getTotalRoomActivities = (proposal) => {
   let runningTotal = 0
   let weeklyRunningTotal = 0
 
+  if (proposal === null) return 0
   
   if (proposal.acf.levels === undefined) return 0
 
@@ -100,8 +102,7 @@ const getTotalRoomActivities = (proposal) => {
           let totalHrs = ( parseInt(timeTo[0]) || 0 )+ ( ( parseInt(timeTo[1]) || 0) / 60 ) + ( (parseInt(timeTo[2]) ||0) / 60 / 60 )
           
           let totalAmt = totalActivityFreq *  parseInt(a.quantity) * totalHrs
-          console.log(totalAmt + totalWeek, "total activty")
-          return totalAmt + totalWeek
+          return parseFloat(totalAmt + totalWeek).toFixed(2)
 
         }) || []
 
@@ -143,8 +144,6 @@ const getRoomActivityFreqRate = (activity, proposal) => {
   const proposalRate = parseInt(proposal.acf.rate) || 0;
   const proposalSatRate = parseInt(proposal.acf.saturday_rate) || 0;
   const proposalSunRate = parseInt(proposal.acf.sunday_rate) || 0;
-
-  console.log(proposalRate, proposal, 'proposal rate')
 
   let activityRate = parseInt(activity?.rate);
   const rate = activityRate ? activityRate : proposalRate > 0 ? proposalRate : parseInt(globalSettings.rate) 

@@ -20,7 +20,7 @@ import proposalRoutes from './proposals'
 const settingsRoutes =  [
   {
       path: '/',
-      name: 'Proposals',
+      name: 'HomeProposals',
       component: HomeProposals,
       meta: {
           requiresAuth: true,

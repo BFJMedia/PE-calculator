@@ -47,9 +47,12 @@ export default {
   },
 
   methods: {
-    async openNewProposal(){
-      await this.$store.dispatch({ type: 'createNewProposal'})
-      this.$router.push({ name: 'ProposalHeader' })
+    openNewProposal(){
+      this.$store.dispatch({ type: 'createNewProposal'}).then(res => {
+        if (res){
+          this.$router.push({ name: 'ProposalHeader' })
+        }
+      })
     },
     confirmDeleteProposal: function(e) {
 
@@ -68,18 +71,28 @@ export default {
           */
           callback: confirm => {
             if (confirm) {
-              //this.deleteRoom(currentRoomId);
+              this.deleteProposal(e);
             }
           }
         }
       )
     },
+
+    deleteProposal: function(e){
+      this.$store.dispatch('deleteProposal').then(res => {
+        if (res){
+           this.$router.push({ name: 'ProposalMain' })
+        }
+      }).catch(e => {
+          console.log(e, "error encountered")
+      });
+    }
     
   },
   computed: {
      score() { return this.$store.state.count },
      showAddNew() {
-       return this.$route.name === 'ProposalMain'
+       return this.$route.name === 'ProposalMain' || this.$route.name ==='Proposals'
      },
      showDuplicateRemove() {
       return this.$store.state.currentProposal === null ? false : true;

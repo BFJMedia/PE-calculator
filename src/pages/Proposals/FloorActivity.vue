@@ -20,7 +20,9 @@
           <div class="column-seven">
             <div class="flex-row" v-for="(str, i) in days_options" :key="i">
               <label class="days-checkbox" > 
-                <input type="checkbox" class="checkbox default-checkbox" :value="str[0]" v-model="formData.frequency"
+                <input type="checkbox" class="checkbox default-checkbox" 
+                  :value="str[0]" 
+                  v-model="formData.frequency"
                 @change="updateActivity" >
                 <span class="checkmark"></span>
               </label>
@@ -28,7 +30,7 @@
           </div>
         </div>
         <div class="delete-floor">
-          <button type="button">x</button>
+          <button type="button" @click="deleteActivity">x</button>
         </div>
   </div>
 </template>
@@ -103,6 +105,10 @@ export default {
     updateActivity: function(e){
       const data = {...this.formData, index: this.index}
       this.$emit("onChangeActivity", data);
+    },
+    deleteActivity: function(e){
+      const data = {...this.formData, index: this.index}
+      this.$emit("onDeleteActivity", data);
     }
   },
   computed: {

@@ -42,6 +42,7 @@
             :activity="activity" 
             :floor_activities="filteredFloorActivities"
             @onChangeActivity="updateFloorActivity"
+            @onDeleteActivity="confirmDeleteFloorActivity"
             :index="i"
           />
         </div>
@@ -152,7 +153,7 @@ export default {
       
       const updatedLevels = vm.proposal.fields.levels.map((a) => {
 
-        if (a.level === null && vm.currentProposalLevel.level===null) return a;
+        if (a.level === null || vm.currentProposalLevel.level===null) return a;
 
         if (a.floor_activities && vm.currentProposalLevel.level.term_id === a.level.term_id){
 
@@ -235,6 +236,71 @@ export default {
         prop: 'currentProposalLevel',
         value: this.$store.state.currentProposal.acf.levels[levelIndex]
       })
+    },
+    confirmDeleteFloorActivity: function(e){
+      
+      const currRoomName = e.activity.name || "";
+
+      this.$confirm(
+        {
+          message: `Are you sure you want to delete ${currRoomName}?`,
+          button: {
+            no: 'No',
+            yes: 'Yes'
+          },
+        
+          callback: confirm => {
+            if (confirm) {
+              this.deleteFloorActivity(e);
+            }
+          }
+        }
+      )
+    },
+    deleteFloorActivity: function(e){
+      const updatedFloorActivities =  this.currentProposalLevel.floor_activities.filter(a => a.activity.term_id !== e.activity.term_id)
+
+       let levelIndex = (this.proposal.acf.levels === false || this.proposal.acf.levels === undefined) ? -1 : this.proposal.acf.levels.findIndex(a => a.level?.term_id === this.currentProposalLevel.level.term_id)
+
+      const updatedFloorAcvititesLevel = {...this.currentProposalLevel, 
+        floor_activities: updatedFloorActivities
+      }
+
+      const updatedLevels = this.proposal.fields.levels.map((a,i) =>{
+        if ( i === levelIndex) {
+          return updatedFloorAcvititesLevel
+        }
+        return a
+      })
+
+      const updatedProposal = {
+          ...this.proposal, 
+            
+              fields: {
+                levels: updatedLevels
+              },
+              acf: {
+                levels: updatedLevels
+              }
+        }
+        
+        this.$store.commit('updateGlobalState',{
+          prop: 'currentProposal',
+          value: updatedProposal
+        } )
+
+
+      
+
+      this.$store.dispatch('saveProposal').then(res => {
+        if (res){
+          this.$store.commit('updateGlobalState', {
+            prop: 'currentProposalLevel',
+            value: this.$store.state.currentProposal.acf.levels[levelIndex]
+          })  
+        }
+      })
+
     }
   },
   
@@ -297,6 +363,9 @@ export default {
     },
     totalAmount (){
       return computeTotalProposal(this.currentProposal, this.$store.state.floor_activities)
+    },
+    floorActivities(){
+      return this.$store.state.floor_activities
     }
 
   },
