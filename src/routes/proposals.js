@@ -12,10 +12,6 @@ import ProposalLayout from '@/layouts/Proposal.vue'
 
 export default [
   {
-    path: '/',
-    name: 'Home',
-  },
-  {
     path: '/proposals',
     name: 'Proposals',
     component: ProposalHome,
