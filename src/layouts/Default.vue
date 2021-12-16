@@ -10,13 +10,13 @@
 
 <script>
 import Header from './Header/Header.vue'
-import Footer from './Footer/Footer.vue'
+//import Footer from './Footer/Footer.vue'
 
 export default {
   name: 'DefaultLayout',
   components: {
       Header,
-      Footer,
+      //Footer,
   },
   data() {
     return {
