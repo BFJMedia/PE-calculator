@@ -1,5 +1,5 @@
 <template>
-  <div class="footer">
+  <div class="footer" v-if="$route.name!='proposals'" v-bind:class="{ 'hide-footer': $route.path == '/proposals' }">
     <div class="tabs">
 <!--       <router-link class="" :to="{ name: 'ProposalHeader' }">Header</router-link> -->
       <router-link class="" :to="{ name: 'ProposalLevels' }">Levels</router-link>
@@ -71,6 +71,9 @@ export default {
     }
     .btn {
       background-color: $footer-color;
+    }
+    &.hide-footer {
+      display: none !important;
     }
 
   }

@@ -10,13 +10,13 @@
 
 <script>
 import Header from './Header/Header.vue'
-//import Footer from './Footer/Footer.vue'
+import Footer from './Footer/Footer.vue'
 
 export default {
   name: 'DefaultLayout',
   components: {
       Header,
-      //Footer,
+      Footer,
   },
   data() {
     return {
@@ -31,15 +31,17 @@ export default {
       this.$router.push(this.$route.query.redirect || '/proposals')
     }
   },
-
   methods: {
-    
+      
   },
+    
   computed: {
     roles() { return this.$store.state.currentUser.roles },
     currentUser() { return this.$store.state.currentUser }
   }
 };
+
+
 </script>
 
 <style lang="scss" scoped>
@@ -51,5 +53,8 @@ export default {
   .body-wrapper{
     height: 100% - 5%;
     margin-bottom: 30px;
+  }
+  .footer.hide-footer {
+    display: none !important;
   }
 </style>

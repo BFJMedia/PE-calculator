@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     
-    <div class="row my-3">
+    <div class="proposal-header row my-3">
       
     <div class="col-6">
       <strong>Proposal</strong>
@@ -67,6 +67,7 @@ export default {
     this.$store.dispatch('getTaxonomy', {taxonomy: 'floor_activities'}).then(res=>{
       this.fetchProposals()
     })
+
   },
 
   methods: {
@@ -88,6 +89,7 @@ export default {
       return parseFloat( computeTotalProposal(proposal, this.$store.state.floor_activities ))
     }
   },
+
   computed: {
     floorActivities() {
       return this.$store.state.floor_activities || []
