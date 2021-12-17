@@ -169,7 +169,7 @@ export default {
       return this.currentProposal.id
     },
     selectedActivityText () {
-      return this.$store.state.currentActivity?.activity.name || 'Select an activity'
+      return this.$store.state.currentActivity?.activity.name || 'Edit an activity'
     },
     selectedRoomText () {
       return this.currentRoom?.room_name?.name || 'Select a room'

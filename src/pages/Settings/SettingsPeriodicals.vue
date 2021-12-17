@@ -13,7 +13,7 @@
             <div class="col-9">
               <custom-dropdown
                 :options="periodicals"
-                :default="'Periodicals'"
+                :default="'Edit periodicals'"
                 class="select"
                 v-model="selected"
                 @onAdd="addRoom($event)"
