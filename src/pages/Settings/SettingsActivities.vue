@@ -31,7 +31,7 @@
             <div class="col-9 h-space">
               <custom-dropdown
                 :options="activitiesDropdown"
-                :default="'Select an activity'"
+                :default="'Edit an activity'"
                 class="select"
                 v-model="selectedActivity"
                 keyName="name"

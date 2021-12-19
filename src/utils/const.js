@@ -1,7 +1,8 @@
 // export const API_DOMAIN = 'http://planet-earth-cleaning-live.local/'
 // export const API_DOMAIN = 'http://hallowed-mind.flywheelstaging.com/'
 // Live
-export const API_DOMAIN = 'https://planetearthcleaning.com.au/'
+//export const API_DOMAIN = 'https://planetearthcleaning.com.au/'
+export const API_DOMAIN = 'http://localhost:8013/'
 export const API_URL = `${API_DOMAIN}wp-json/`
 export const PE_URL = `${API_URL}planet-earth/v1`
 export const WP_URL = `${API_URL}wp/v2`

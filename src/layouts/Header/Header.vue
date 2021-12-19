@@ -10,7 +10,7 @@
       <button class="btn edit-btn top-link m-0" title="edit">
         <img src="@/assets/icons/0.75x/download-icon.png" class="icon download"/>
       </button>
-      <button class="btn edit-btn top-link m-0" title="edit" @click="openNewProposal">
+      <button class="btn edit-btn top-link m-0" title="edit">
         <img src="@/assets/icons/0.75x/add-icon-white.png" class="icon add"/>
       </button>
  

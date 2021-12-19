@@ -138,6 +138,27 @@ export default {
           console.log(err)
         })
       }
+    },
+    getDefaultActivityValues(id){
+      
+      const roomid = this.$store.state.currentRoom.room_name.term_id || this.$store.state.currentRoom.room_name.id
+      const room = this.$store.state.settings.acf.rooms.find(a => a.room.term_id === roomid)
+
+      console.log(room, 'selected room')
+
+      if (room){
+        const selectedActivity = room.activities.find(a=> a.activity.term_id === id)
+
+        if (selectedActivity){
+          console.log(selectedActivity, 'selected act')
+          return {
+            ...selectedActivity,
+            time_to_perform_task: selectedActivity.time_to_perform_task.split(':') || [0,0,0]
+          }
+        }
+
+      }
+
     }
   },
   computed: {
@@ -169,7 +190,7 @@ export default {
       return this.currentProposal.id
     },
     selectedActivityText () {
-      return this.$store.state.currentActivity?.activity.name || 'Select an activity'
+      return this.$store.state.currentActivity?.activity.name || 'Edit an activity'
     },
     selectedRoomText () {
       return this.currentRoom?.room_name?.name || 'Select a room'
@@ -275,7 +296,9 @@ export default {
 
       let theRoom = { ...this.currentRoom }
 
-      const newActivity = {...DEFAULT_ACTIVITY, activity: {...newVal, term_id: newVal.id}}
+      //const newActivity = {...DEFAULT_ACTIVITY, activity: {...newVal, term_id: newVal.id}}
+
+       let newActivity = {...DEFAULT_ACTIVITY, activity: {...newVal, term_id: newVal.id}, ...this.getDefaultActivityValues(newVal.id) || null }
 
       if (activityIndex === -1){
         theRoom.activities = [ ...theRoom.activities || [], newActivity ]

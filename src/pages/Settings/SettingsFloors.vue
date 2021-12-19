@@ -13,7 +13,7 @@
             <div class="col-9">
               <custom-dropdown
                 :options="floors"
-                :default="'Select floor activity'"
+                :default="'Edit floor activity'"
                 class="select"
                 v-model="currentFloor"
                 @onAdd="addFloor($event)"
