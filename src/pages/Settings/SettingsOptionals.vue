@@ -14,7 +14,7 @@
             <div class="col-9">
               <custom-dropdown
                 :options="optionals"
-                :default="'Select optional'"
+                :default="'Edit optionals'"
                 class="select"
                 v-model="selected"
                 @onAdd="addRoom($event)"

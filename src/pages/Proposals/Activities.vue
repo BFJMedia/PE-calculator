@@ -43,7 +43,7 @@
     <div class="form-group row">
       <label for="staticEmail" class="col-sm-3 col-form-label text-left">Text to appear as</label>
       <div class="col-sm-9 ">
-        <input type="text" class="form-control-plaintext pe-input my-1" v-model="formData.fields.text_to_display"
+        <input type="text" :placeholder="selectedActivityText" class="form-control-plaintext pe-input my-1" v-model="formData.fields.text_to_display"
         @change="updateProposal"
         >
       </div>
@@ -57,7 +57,7 @@
       </div>
     </div>
     <div class="form-group row">
-      <label for="staticEmail" class="col-sm-3 col-form-label text-left">Rate:</label>
+      <label for="staticEmail" class="col-sm-3 col-form-label text-left">Activity Rate <small>(Optional)</small>:</label>
       <div class="col-sm-9 ">
         <input type="text" class="form-control-plaintext pe-input my-1" v-model="formData.fields.rate"
         @change="updateProposal"
@@ -266,7 +266,7 @@ export default {
       return this.currentProposal.id
     },
     selectedActivityText () {
-      return this.currentActivity?.activity?.name || 'Select an activity'
+      return this.currentActivity?.activity?.name || 'Edit an activity'
     },
     ...mapState([
       'currentRoom',
