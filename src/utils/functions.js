@@ -45,7 +45,9 @@ const getTotalFloorActivities = (proposal) => {
   let runningTotal = 0
 
   if (proposal === null) return 0
-  if (proposal.acf.levels === undefined) return 0
+  if (proposal.acf.levels === undefined ||
+      proposal.acf.levels === false
+    ) return 0
 
   proposal.acf.levels.forEach(level => {
     
@@ -72,7 +74,7 @@ const getTotalRoomActivities = (proposal) => {
 
   if (proposal === null) return 0
   
-  if (proposal.acf.levels === undefined) return 0
+  if (proposal.acf.levels === undefined || proposal.acf.levels === false) return 0
 
   proposal.acf.levels.forEach(level => {
     
@@ -128,6 +130,8 @@ const getFloorActivityRate = (activity, area) => {
   const foundActivity = globalFloorActivities?.find(a => a.term_id = activity.term_id) || -1;
 
   if (!foundActivity || foundActivity === -1) return 0
+
+  if (foundActivity.acf.calculation === undefined) return 0
 
   const formula = foundActivity.acf.calculation.replace('=','').replace("Area",area)
   
