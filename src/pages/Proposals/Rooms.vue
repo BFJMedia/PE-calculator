@@ -32,7 +32,7 @@
       </div>
     </div>
 
-    <div class="form-group row">
+    <!-- <div class="form-group row">
       <label for="staticEmail" class="col-sm-3 col-form-label text-l">Activities</label>
       <div class="col-sm-9">
         <custom-dropdown
@@ -42,7 +42,7 @@
           v-model="selectedActivity"
         ></custom-dropdown>
       </div>
-    </div>
+    </div> -->
 
     <div class="form-group row">
       <label for="notes" class="col-sm-3 col-form-label text-l">Notes</label>
