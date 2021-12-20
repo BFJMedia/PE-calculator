@@ -41,4 +41,7 @@ export default {
   text-align: center;
   color: #454b50;
 }
+div input, div .pe-input {
+    font-family: 'Nunito Sans', sans-serif;
+}
 </style>
