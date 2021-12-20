@@ -97,7 +97,7 @@ const getTotalRoomActivities = (proposal) => {
         
         totalWeeklyDailyArray = room.activities.map(a => {
 
-          if (parseInt(a.quantity) === 0 || a.quantity === undefined) {
+          if (a.quantity === '' || parseInt(a.quantity) === 0 || a.quantity === undefined) {
             return 0
           }
 
