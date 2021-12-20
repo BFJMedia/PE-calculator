@@ -22,6 +22,10 @@ export const computeTotalProposal = (proposal, floorActivities) => {
   let totalActivities = getTotalFloorActivities(proposal, floorActivities)
   let totalRoomActivities = getTotalRoomActivities(proposal)
 
+  console.log(totalRoomActivities, 'total room act')
+  console.log(totalHeader, 'total header')
+  console.log(totalActivities, 'total floor')
+
   return parseFloat(totalHeader + totalRoomActivities + totalActivities).toFixed(2)
 }
 
@@ -32,6 +36,10 @@ const getTotalHeader = (proposal) => {
   const daysCleanerRate = parseInt(proposal.acf.day_cleaner_rate) || 1
   const hours = parseInt(proposal.acf.hours) || 0
   const totalDaysClean = (dayCleaned * hours) * daysCleanerRate 
+
+  console.log(`dayCleaned`, dayCleaned)
+  console.log(`daysCleanerRate`, daysCleanerRate)
+  console.log(`hours`, hours)
 
   return totalDaysClean * 52 / 12
 }
@@ -88,18 +96,20 @@ const getTotalRoomActivities = (proposal) => {
         let rate = 0
         
         totalWeeklyDailyArray = room.activities.map(a => {
+
+          if (a.quantity === '' || parseInt(a.quantity) === 0 || a.quantity === undefined) {
+            return 0
+          }
+
           
           let totalActivityFreq = getRoomActivityFreqRate(a, proposal)
 
           let activityRate = parseInt(a?.rate);
-          rate = activityRate ? activityRate :  parseInt(globalSettings.rate) 
+          rate = activityRate ? activityRate :  parseInt(proposal.acf.rate) 
 
           let totalWeek = a.weeks.length * rate;
           
-          if (a.quantity === 0 || a.quantity === undefined) {
-            return 0
-          }
-
+     
           let timeTo = a.time_to_perform_task?.split(':') || 0
           let totalHrs = ( parseInt(timeTo[0]) || 0 )+ ( ( parseInt(timeTo[1]) || 0) / 60 ) + ( (parseInt(timeTo[2]) ||0) / 60 / 60 )
           
@@ -150,20 +160,20 @@ const getRoomActivityFreqRate = (activity, proposal) => {
   const proposalSunRate = parseInt(proposal.acf.sunday_rate) || 0;
 
   let activityRate = parseInt(activity?.rate);
-  const rate = activityRate ? activityRate : proposalRate > 0 ? proposalRate : parseInt(globalSettings.rate) 
+  const rate = activityRate ? activityRate : proposalRate > 0 ? proposalRate : parseInt(proposal.acf.rate) 
 
   let totalSunday = 0
   let totalSat = 0
   let totalWeeks = 0
 
   if (countSunday.length > 0 ){
-    const sunRate = proposalSunRate > 0 ? proposalSunRate : parseInt(globalSettings.sunday_rate) || 0
+    const sunRate = proposalSunRate > 0 ? proposalSunRate : parseInt(proposal.acf.sunday_rate) || 0
     totalSunday = sunRate === 0 ? rate * 1 : sunRate * 1
     totalSunday = totalSunday * 52 / 12
   }
 
   if (countSaturday.length > 0 ){
-    const satRate =  proposalSatRate > 0 ? proposalSatRate : parseInt(globalSettings.saturday_rate) 
+    const satRate =  proposalSatRate > 0 ? proposalSatRate : parseInt(proposal.acf.saturday_rate) 
     totalSat = satRate === 0 ? rate * 1 : satRate * 1
     totalSat = totalSat * 52 / 12
   }
