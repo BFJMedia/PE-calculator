@@ -105,7 +105,7 @@ const getTotalRoomActivities = (proposal) => {
           let totalActivityFreq = getRoomActivityFreqRate(a, proposal)
 
           let activityRate = parseInt(a?.rate);
-          rate = activityRate ? activityRate :  parseInt(globalSettings.rate) 
+          rate = activityRate ? activityRate :  parseInt(proposal.acf.rate) 
 
           let totalWeek = a.weeks.length * rate;
           
@@ -160,20 +160,20 @@ const getRoomActivityFreqRate = (activity, proposal) => {
   const proposalSunRate = parseInt(proposal.acf.sunday_rate) || 0;
 
   let activityRate = parseInt(activity?.rate);
-  const rate = activityRate ? activityRate : proposalRate > 0 ? proposalRate : parseInt(globalSettings.rate) 
+  const rate = activityRate ? activityRate : proposalRate > 0 ? proposalRate : parseInt(proposal.acf.rate) 
 
   let totalSunday = 0
   let totalSat = 0
   let totalWeeks = 0
 
   if (countSunday.length > 0 ){
-    const sunRate = proposalSunRate > 0 ? proposalSunRate : parseInt(globalSettings.sunday_rate) || 0
+    const sunRate = proposalSunRate > 0 ? proposalSunRate : parseInt(proposal.acf.sunday_rate) || 0
     totalSunday = sunRate === 0 ? rate * 1 : sunRate * 1
     totalSunday = totalSunday * 52 / 12
   }
 
   if (countSaturday.length > 0 ){
-    const satRate =  proposalSatRate > 0 ? proposalSatRate : parseInt(globalSettings.saturday_rate) 
+    const satRate =  proposalSatRate > 0 ? proposalSatRate : parseInt(proposal.acf.saturday_rate) 
     totalSat = satRate === 0 ? rate * 1 : satRate * 1
     totalSat = totalSat * 52 / 12
   }
