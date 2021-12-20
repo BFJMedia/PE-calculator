@@ -22,6 +22,9 @@ export const computeTotalProposal = (proposal, floorActivities) => {
   let totalActivities = getTotalFloorActivities(proposal, floorActivities)
   let totalRoomActivities = getTotalRoomActivities(proposal)
 
+  console.log(totalRoomActivities, 'total room act')
+  console.log(totalHeader, 'total header')
+  console.log(totalActivities, 'total floor')
 
   return parseFloat(totalHeader + totalRoomActivities + totalActivities).toFixed(2)
 }
@@ -34,6 +37,9 @@ const getTotalHeader = (proposal) => {
   const hours = parseInt(proposal.acf.hours) || 0
   const totalDaysClean = (dayCleaned * hours) * daysCleanerRate 
 
+  console.log(`dayCleaned`, dayCleaned)
+  console.log(`daysCleanerRate`, daysCleanerRate)
+  console.log(`hours`, hours)
 
   return totalDaysClean * 52 / 12
 }
