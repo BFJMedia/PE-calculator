@@ -22,6 +22,7 @@ export const computeTotalProposal = (proposal, floorActivities) => {
   let totalActivities = getTotalFloorActivities(proposal, floorActivities)
   let totalRoomActivities = getTotalRoomActivities(proposal)
 
+
   return parseFloat(totalHeader + totalRoomActivities + totalActivities).toFixed(2)
 }
 
@@ -32,6 +33,7 @@ const getTotalHeader = (proposal) => {
   const daysCleanerRate = parseInt(proposal.acf.day_cleaner_rate) || 1
   const hours = parseInt(proposal.acf.hours) || 0
   const totalDaysClean = (dayCleaned * hours) * daysCleanerRate 
+
 
   return totalDaysClean * 52 / 12
 }
@@ -88,6 +90,11 @@ const getTotalRoomActivities = (proposal) => {
         let rate = 0
         
         totalWeeklyDailyArray = room.activities.map(a => {
+
+          if (parseInt(a.quantity) === 0 || a.quantity === undefined) {
+            return 0
+          }
+
           
           let totalActivityFreq = getRoomActivityFreqRate(a, proposal)
 
@@ -96,10 +103,7 @@ const getTotalRoomActivities = (proposal) => {
 
           let totalWeek = a.weeks.length * rate;
           
-          if (a.quantity === 0 || a.quantity === undefined) {
-            return 0
-          }
-
+     
           let timeTo = a.time_to_perform_task?.split(':') || 0
           let totalHrs = ( parseInt(timeTo[0]) || 0 )+ ( ( parseInt(timeTo[1]) || 0) / 60 ) + ( (parseInt(timeTo[2]) ||0) / 60 / 60 )
           
