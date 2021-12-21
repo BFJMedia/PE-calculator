@@ -74,7 +74,7 @@ export default {
               $emit('input', option);
               emitSelect()
             "
-          ><span @click="$event.target.classList.add('active')" class="select-btn">Select</span></div>
+          ><span @click="toggle" class="select-btn">Select</span></div>
           <div class="flex-40 button-div" v-if="!hideRemove">
             <button
               type="button"
@@ -104,6 +104,9 @@ export default {
     },
   },
   methods: {
+    toggle: function( event ) {
+      event.target.classList.toggle('active')
+    },
     mounted() {
       this.$emit("input", this.selected);
     },
