@@ -76,6 +76,10 @@ export default {
         method: 'GET'
       }).then((res) => {              
           this.proposals = res
+           this.$store.commit('updateGlobalState',{
+              prop: 'loading',
+              value: false
+          })
       }).catch((err) => {
         console.log(err)
       })

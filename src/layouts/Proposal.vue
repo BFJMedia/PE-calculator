@@ -4,6 +4,7 @@
     <div class="body-wrapper">    
       <slot />
     </div>    
+    <loading/>
     <Footer />
   </div>
 </template>
@@ -11,12 +12,14 @@
 <script>
 import Header from './ProposalHeader/ProposalHeader.vue'
 import Footer from './ProposalFooter/ProposalFooter.vue'
+import Loading from '../components/common/Loading.vue'
 
 export default {
   name: 'ProposalLayout',
   components: {
       Header,
       Footer,
+      Loading
   },
   data() {
     return {

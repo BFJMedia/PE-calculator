@@ -24,6 +24,7 @@ export default new Vuex.Store({
     currentRoom: null,
     currentActivity: null,
     totalAmount: 0,
+    loading: true
     /*  
     currentProposalLevelIndex: -1,
     currentProposalRoomIndex: -1,
