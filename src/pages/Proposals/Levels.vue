@@ -153,7 +153,7 @@ export default {
 
       let levelIndex = -1
       
-      const updatedLevels = vm.proposal.fields.levels.map((a, i) => {
+      let updatedLevels = vm.proposal.fields.levels.map((a, i) => {
 
         if (a.level === null || vm.currentProposalLevel.level===null) return a;
 
@@ -170,7 +170,9 @@ export default {
 
         return a
       })
-            
+
+      updatedLevels = updatedLevels.filter( a => a.level !== null)
+
       const updatedProposal = {
           ...this.proposal, 
             
