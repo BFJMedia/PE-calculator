@@ -51,9 +51,10 @@ export default {
           </div>
         </div>
         <div
-          class="flex-row options"
+          class="flex-row options item-checkbox"
           v-for="(option, i) of options"
           :key="i"
+          @click="toggle"
         >
           <div class="flex-40 editable">
             <input
@@ -74,7 +75,7 @@ export default {
               $emit('input', option);
               emitSelect()
             "
-          ><span @click="toggle" class="select-btn">Select</span></div>
+          ><span class="select-btn">Select</span></div>
           <div class="flex-40 button-div" v-if="!hideRemove">
             <button
               type="button"
@@ -105,7 +106,19 @@ export default {
   },
   methods: {
     toggle: function( event ) {
-      event.target.classList.toggle('active')
+      //event.target.classList.add('active');
+
+      var c2 = event.target;
+      var c3 = c2.parentNode.closest('.item-checkbox');
+      c3.classList.add('active');
+
+      let listItems = document.getElementsByClassName("item-checkbox");
+
+      for (let sibling of listItems) {
+          if (sibling !== c3) sibling.classList.remove('active');
+      }
+
+
     },
     mounted() {
       this.$emit("input", this.selected);

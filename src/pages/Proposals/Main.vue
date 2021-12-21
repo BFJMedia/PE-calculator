@@ -128,7 +128,7 @@ export default {
     border-radius: 6px;
     font-size: 12px;
   }
-  span.select-btn.active {
+  .item-checkbox.active span.select-btn {
     color: #d0e8ec;
     background-color: #0098a7;
   }
