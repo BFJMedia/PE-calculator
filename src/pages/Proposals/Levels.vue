@@ -150,13 +150,15 @@ export default {
     updateFloorActivity: function(e){
 
       const vm = this
+
+      let levelIndex = -1
       
-      const updatedLevels = vm.proposal.fields.levels.map((a) => {
+      const updatedLevels = vm.proposal.fields.levels.map((a, i) => {
 
         if (a.level === null || vm.currentProposalLevel.level===null) return a;
 
         if (a.floor_activities && vm.currentProposalLevel.level.term_id === a.level.term_id){
-
+            levelIndex = i
             const updatedFloorAct = a.floor_activities.map( (f, i) => {
               if ( i === e.index) {
                 return {...e}
@@ -168,8 +170,7 @@ export default {
 
         return a
       })
-
-      
+            
       const updatedProposal = {
           ...this.proposal, 
             
@@ -190,7 +191,7 @@ export default {
         if (res){
           this.$store.commit('updateGlobalState', {
            prop: 'currentProposalLevel',
-           value: this.$store.state.currentProposal.acf.levels[e.index]
+           value: this.$store.state.currentProposal.acf.levels[levelIndex]
          })
   
         }

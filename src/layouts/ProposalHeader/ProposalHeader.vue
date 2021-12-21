@@ -5,8 +5,10 @@
     <div class="icons float-l col-6">
       <router-link to="/proposals" title="home"
       class="top-link"><img src="@/assets/icons/0.75x/home-white.png" class="icon home"/></router-link>
-      <router-link to="/settings" title="settings"
+
+      <router-link to="/settings" title="settings" v-if="adminOnly"
       class="top-link"><img src="@/assets/icons/0.75x/settings-white.png" class="icon settings"/></router-link>
+
       <button class="btn edit-btn top-link m-0" title="edit">
         <img src="@/assets/icons/0.75x/download-icon.png" class="icon download"/>
       </button>
@@ -99,6 +101,12 @@ export default {
      },
      proposal() {
       return this.$store.state.currentProposal;
+     },
+     adminOnly() {
+       const userData = localStorage.getItem('user')
+       const userRoles = JSON.parse(userData).roles
+       console.log(userRoles.includes("administrator"), 'admin?')
+       return userRoles.includes("administrator")
      }
   }
 };
