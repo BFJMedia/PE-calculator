@@ -191,7 +191,10 @@ export default new Vuex.Store({
       
       if (state.currentProposalLevel === null) return -1
 
-      return state.currentProposal.acf.levels.findIndex ( a=> a.level.term_id === state.currentProposalLevel.level.term_id )
+      return state.currentProposal.acf.levels.findIndex ( a=> {
+          if(a.level === null) return false
+          return a.level.term_id === state.currentProposalLevel.level.term_id
+      } )
 
     },
     currentProposalRoomIndex: state => {
