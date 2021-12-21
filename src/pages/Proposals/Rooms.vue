@@ -221,7 +221,15 @@ export default {
       // on this part we add to the level -> room or not
       // get the room index first
       // if not found add
-      let roomIndex = this.currentProposal.acf.levels[this.currentProposalLevelIndex].rooms.findIndex(a => a.room_name.term_id === newVal.id)
+
+      let roomIndex = -1
+
+      if (this.currentProposal.acf.levels[this.currentProposalLevelIndex].rooms === false) {
+        roomIndex = -1
+      }else{
+        roomIndex = this.currentProposal.acf.levels[this.currentProposalLevelIndex].rooms.findIndex(a => a.room_name.term_id === newVal.id)
+      }
+
 
       if (roomIndex === -1){
         const newRoom = {
