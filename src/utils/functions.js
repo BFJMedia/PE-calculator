@@ -22,9 +22,7 @@ export const computeTotalProposal = (proposal, floorActivities) => {
   let totalActivities = getTotalFloorActivities(proposal, floorActivities)
   let totalRoomActivities = getTotalRoomActivities(proposal)
 
-  console.log(totalRoomActivities, 'total room act')
-  console.log(totalHeader, 'total header')
-  console.log(totalActivities, 'total floor')
+
 
   return parseFloat(totalHeader + totalRoomActivities + totalActivities).toFixed(2)
 }
@@ -37,15 +35,13 @@ const getTotalHeader = (proposal) => {
   const hours = parseInt(proposal.acf.hours) || 0
   const totalDaysClean = (dayCleaned * hours) * daysCleanerRate 
 
-  console.log(`dayCleaned`, dayCleaned)
-  console.log(`daysCleanerRate`, daysCleanerRate)
-  console.log(`hours`, hours)
+
 
   return totalDaysClean * 52 / 12
 }
 
 function getSum(total, num) {  
-  return total + Math.round(num);
+  return total + parseFloat(num);
 }
 
 const getTotalFloorActivities = (proposal) => {
@@ -167,13 +163,13 @@ const getRoomActivityFreqRate = (activity, proposal) => {
   let totalWeeks = 0
 
   if (countSunday.length > 0 ){
-    const sunRate = proposalSunRate > 0 ? proposalSunRate : parseInt(proposal.acf.sunday_rate) || 0
+    const sunRate = proposalSunRate > 0 ? proposalSunRate : parseFloat(proposal.acf.sunday_rate) || 0
     totalSunday = sunRate === 0 ? rate * 1 : sunRate * 1
     totalSunday = totalSunday * 52 / 12
   }
 
   if (countSaturday.length > 0 ){
-    const satRate =  proposalSatRate > 0 ? proposalSatRate : parseInt(proposal.acf.saturday_rate) 
+    const satRate =  proposalSatRate > 0 ? proposalSatRate : parseFloat(proposal.acf.saturday_rate) 
     totalSat = satRate === 0 ? rate * 1 : satRate * 1
     totalSat = totalSat * 52 / 12
   }

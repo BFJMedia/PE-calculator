@@ -167,7 +167,13 @@ export default {
      updateProposal(e){
 
       if (this.currentActivity === null){
-        this.$router.push({ name: 'ProposalLevel' })
+        //this.$router.push({ name: 'ProposalLevel' })
+        console.log('No activitiy selected')
+        return
+      }
+
+      if (typeof this.formData.fields.frequency === 'boolean'){
+        this.formData.fields.frequency = []
       }
 
       this.formData.fields.time_taken = this.formData.fields.time_array.join(":")
