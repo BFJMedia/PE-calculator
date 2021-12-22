@@ -21,7 +21,10 @@
         <div class="icons d-block" v-if="showDuplicateRemove" v-bind:class="{ 'hide-icons': $route.path == '/proposals' }">
           
           <button class="btn remove-btn top-link float-right" title="remove"><img src="@/assets/icons/0.75x/delete-icon.png" class="icon remove" @click="confirmDeleteProposal"/></button>
-          <button class="btn duplicate-btn top-link float-right" title="duplicate"><img src="@/assets/icons/0.75x/duplicate-icon.png" class="icon duplicate" /></button>
+          <button class="btn duplicate-btn top-link float-right" title="duplicate"  
+            @click="confirmDuplicateProposal">
+            <img src="@/assets/icons/0.75x/duplicate-icon.png" class="icon duplicate" />
+          </button>
         </div>
       </div>
     </div>
@@ -82,6 +85,39 @@ export default {
 
     deleteProposal: function(e){
       this.$store.dispatch('deleteProposal').then(res => {
+        if (res){
+           this.$router.push({ name: 'ProposalMain' })
+        }
+      }).catch(e => {
+          console.log(e, "error encountered")
+      });
+    },
+    confirmDuplicateProposal: function(e) {
+
+      let title = this.proposal.title.rendered; 
+
+       this.$confirm(
+        {
+          message: `Are you sure you want to duplicate ${title}?`,
+          button: {
+            no: 'No',
+            yes: 'Yes'
+          },
+          /**
+          * Callback Function
+          * @param {Boolean} confirm 
+          */
+          callback: confirm => {
+            if (confirm) {
+              this.duplicateProposal(e);
+            }
+          }
+        }
+      )
+    },
+
+    duplicateProposal: function(e){
+      this.$store.dispatch('duplicateProposal').then(res => {
         if (res){
            this.$router.push({ name: 'ProposalMain' })
         }

@@ -2,7 +2,7 @@
 // export const API_DOMAIN = 'http://hallowed-mind.flywheelstaging.com/'
 // Live
 export const API_DOMAIN = 'https://planetearthcleaning.com.au/'
-// export const API_DOMAIN = 'http://localhost:8013/'
+//export const API_DOMAIN = 'http://localhost:8013/'
 export const API_URL = `${API_DOMAIN}wp-json/`
 export const PE_URL = `${API_URL}planet-earth/v1`
 export const WP_URL = `${API_URL}wp/v2`
@@ -17,6 +17,7 @@ export const DELETE_TAXONOMY = `${PE_URL}/taxonomy/`
 export const PE_PROPOSALS = `${WP_URL}/proposals`
 export const UPDATE_PROPOSAL_FIELD = `${ACF_URL}/proposals/`
 export const PROPOSAL_PDF = `${PE_URL}/proposals/pdf`
+export const PROPOSAL_DUPLICATE = `${PE_URL}/proposals/duplicate`
 
 export const DAY_OPTIONS = [
   [1, "M"],

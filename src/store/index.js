@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex"
 import request from '@/helpers/fetchWrapper'
-import { SETTINGS_URL, PE_PROPOSALS, GET_TAXONOMY } from '@/utils/const'
+import { SETTINGS_URL, PE_PROPOSALS, GET_TAXONOMY, PROPOSAL_DUPLICATE } from '@/utils/const'
 import { computeTotalProposal } from '@/utils/functions'
 
 Vue.use(Vuex);
@@ -160,6 +160,30 @@ export default new Vuex.Store({
 
         request(`${PE_PROPOSALS}/${state.currentProposal.id}`, {
           method: 'DELETE',
+          body: JSON.stringify(updatedProposal),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }).then((res) => {  
+            res.refresh = false            
+            resolve (true)
+          }).catch((err) => {
+            console.log(err)
+            reject (err)
+        })
+
+      })
+    },
+    duplicateProposal( {commit, state}) {
+      
+      let updatedProposal = {...state.currentProposal}
+      updatedProposal.title = updatedProposal.title + "Duplicate"
+      updatedProposal.post = updatedProposal.id
+
+      return new Promise((resolve, reject) => {
+
+        request(`${PROPOSAL_DUPLICATE}`, {
+          method: 'POST',
           body: JSON.stringify(updatedProposal),
           headers: {
             "Content-Type": "application/json",
