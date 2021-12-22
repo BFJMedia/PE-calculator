@@ -40,6 +40,7 @@ export default {
     align-items: center;
     justify-content: center;
     background: #000;
+    z-index: 1000;
     opacity: 0.8;
       .lds-ripple {
         display: inline-block;
