@@ -6,13 +6,15 @@ import VueSingleSelect from "vue-single-select";
 import VueConfirmDialog from 'vue-confirm-dialog'
 import CurrencyInput from './components/common/CurrencyInput.vue'
 import CustomDropdown from './components/common/CustomDropdown.vue'
+import Toasted from 'vue-toasted';
+ 
 
 // console.log(CurrencyInput, "cur input")
 
 // font awesome library
 
 Vue.config.productionTip = false
-
+Vue.use(Toasted)
 
 Vue.use(VueConfirmDialog)
 Vue.component('vue-confirm-dialog', VueConfirmDialog.default)

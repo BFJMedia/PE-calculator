@@ -97,8 +97,18 @@ export default {
   computed: {
     floorActivities() {
       return this.$store.state.floor_activities || []
-    }
-  }
+    },
+    showNotification(){
+      
+      return this.$store.state.showNotification
+    },
+    currentProposal () {
+      return this.$store.state.currentProposal
+    },
+    proposal_id () {
+      return this.$store.state.currentProposal.id || 0
+    },
+  }, 
 };
 </script>
 
@@ -150,4 +160,5 @@ export default {
   .cursor-pointer {
     cursor: pointer;
   }
+  [v-cloak] {display: none}
 </style>

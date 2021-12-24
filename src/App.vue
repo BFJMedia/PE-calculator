@@ -32,7 +32,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 @import '/sass/styles.scss';
 #app {
   font-family: 'Nunito Sans', sans-serif;
@@ -44,4 +44,13 @@ export default {
 div input, div .pe-input {
     font-family: 'Nunito Sans', sans-serif;
 }
+
+  .toasted-container.top-right {
+    top: 5% !important;
+    right: 0 !important;
+    display: flex;    
+  }
+    .action {
+      width: 10%;
+    }
 </style>

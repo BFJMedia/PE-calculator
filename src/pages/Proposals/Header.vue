@@ -123,12 +123,12 @@
     </div>
     </div>
     
-    <div class="form-group row">
+<!--     <div class="form-group row">
          <label for="staticEmail" class="col-sm-3 col-form-label"></label>
           <div class="col-sm-9">
            <button @click="sendProposal"> Send</button>
         </div>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -214,6 +214,8 @@ export default {
         }).then((res) => {
             res.refresh = false
             this.$store.commit('updateCurrentProposal', res)
+            
+             this.$store.commit ('updateGlobalState', {prop: 'showNotification',value:true}) 
         }).catch((err) => {
           console.log(err)
         }) 

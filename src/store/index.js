@@ -24,7 +24,8 @@ export default new Vuex.Store({
     currentRoom: null,
     currentActivity: null,
     totalAmount: 0,
-    loading: true
+    loading: true,
+    showNotification: false,
     /*  
     currentProposalLevelIndex: -1,
     currentProposalRoomIndex: -1,
@@ -142,8 +143,10 @@ export default new Vuex.Store({
           },
         }).then((res) => {  
             res.refresh = false            
+            commit ('updateGlobalState', {prop: 'showNotification',value:true}) 
             commit('updateCurrentProposal', res)
             resolve (true)
+
           }).catch((err) => {
             console.log(err)
             reject (err)
