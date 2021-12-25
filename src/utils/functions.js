@@ -22,7 +22,9 @@ export const computeTotalProposal = (proposal, floorActivities) => {
   let totalActivities = getTotalFloorActivities(proposal, floorActivities)
   let totalRoomActivities = getTotalRoomActivities(proposal)
 
-
+  console.log(totalHeader, 'header')
+  console.log(totalActivities, 'floor')
+  console.log(totalRoomActivities, 'room')
 
   return parseFloat(totalHeader + totalRoomActivities + totalActivities).toFixed(2)
 }
@@ -60,7 +62,7 @@ const getTotalFloorActivities = (proposal) => {
       level.floor_activities.length === 0
       ) return 0
 
-    runningTotal += level.floor_activities.map(a=>getFloorActivityRate(a.activity, a.area )).reduce( 
+    runningTotal += level.floor_activities.map(a=>getFloorActivityRate(a.activity, a.area, a.frequency )).reduce( 
       (a, b) =>  {
         return getSum(a,b)
       }
@@ -68,7 +70,8 @@ const getTotalFloorActivities = (proposal) => {
     
   });
 
-  return  Math.round(runningTotal * 52 / 12)
+  return  runningTotal 
+  //return  runningTotal * 52 / 12
 }
 
 
@@ -126,22 +129,22 @@ const getTotalRoomActivities = (proposal) => {
   return runningTotal
 }
 
-const getFloorActivityRate = (activity, area) => {
+const getFloorActivityRate = (activity, area, frequency) => {
   function computeArea(fn) {
     return new Function('return ' + fn)();
   }
 
   if (activity === null) return 0;
 
-  const foundActivity = globalFloorActivities?.find(a => a.term_id = activity.term_id) || -1;
+
+  const foundActivity = globalFloorActivities?.find(a => a.id === activity.term_id) || -1;
 
   if (!foundActivity || foundActivity === -1) return 0
 
   if (foundActivity.acf.calculation === undefined) return 0
 
-  const formula = foundActivity.acf.calculation.replace('=','').replace("Area",area)
-  
-  return computeArea(formula)
+  const formula = foundActivity.acf.calculation.replace('=','').replace("Area",area)  
+  return computeArea(formula) * (frequency?.length || 1)
 
 }
 
