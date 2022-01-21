@@ -97,7 +97,7 @@ export default {
   },
 
   methods: {
-    updateSettings: function(){
+    updateSettings: async function(){
         console.log('trigged by emti')
         let formData = {
           fields: {
@@ -113,7 +113,7 @@ export default {
         formData.fields.saturday_rate = this.saturday_rate;
         formData.fields.sunday_rate = this.sunday_rate;
 
-        request(`${UPDATE_SETTINGS_URL}${this.settings_id}`, {
+        await request(`${UPDATE_SETTINGS_URL}${this.settings_id}`, {
           method: 'POST',
           body: JSON.stringify(formData),
           headers: {
