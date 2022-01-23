@@ -52,6 +52,15 @@
                 </div>
               </div>
             </div>
+            <div class="grid-horizontal flex-row h-space" >
+              <div class="grid-row h-space">
+                <div class="grid-title flex-row flex-100"> <label for="day-cleaner-rate" class="text-l">Day Cleaner Rate:</label> </div>
+                <div class="grid-form flex-row flex-50"> 
+                   <currency-input v-model="day_cleaner_rate" 
+                    @change="updateSettings"></currency-input>
+                </div>
+              </div>
+            </div>
           </div>
         </div>        
       </form>
@@ -84,6 +93,7 @@ export default {
       default_rate: 0,
       saturday_rate: 0,
       sunday_rate: 0,
+      day_cleaner_rate: 0,
       settings_id: null,
       visible_sat: true,
       visible_sun: false
@@ -104,7 +114,8 @@ export default {
             days:[],
             rate: '',
             saturday_rate: '',
-            sunday_rate: ''
+            sunday_rate: '',
+            day_cleaner_rate: ''
           }
         };
 
@@ -112,6 +123,7 @@ export default {
         formData.fields.rate = this.default_rate;
         formData.fields.saturday_rate = this.saturday_rate;
         formData.fields.sunday_rate = this.sunday_rate;
+        formData.fields.day_cleaner_rate = this.day_cleaner_rate;
 
         await request(`${UPDATE_SETTINGS_URL}${this.settings_id}`, {
           method: 'POST',
@@ -134,7 +146,7 @@ export default {
             this.default_rate = parseFloat(res.acf.rate) || 0
             this.saturday_rate = parseFloat(res.acf.saturday_rate) || 0
             this.sunday_rate = parseFloat(res.acf.sunday_rate) || 0
-            console.log(this.sunday_rate)
+            this.day_cleaner_rate = parseFloat(res.acf.day_cleaner_rate) || 0
             this.settings_id = res.ID
         }).catch((err) => {
           console.log(err)

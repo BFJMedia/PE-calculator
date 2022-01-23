@@ -11,9 +11,10 @@
               <label class="text-l">Floor Activity:</label>
             </div>
             <div class="col-9">
+                <!-- :default="'Edit floor activity'" -->
               <custom-dropdown
                 :options="floors"
-                :default="'Edit floor activity'"
+                :default="selectedFloor || 'Edit floor activity'"
                 class="select"
                 v-model="currentFloor"
                 @onAdd="addFloor($event)"
@@ -136,10 +137,10 @@ export default {
       this.showAddForm = !this.showAddForm
     },
     saveData: function() {
-      const url = this.action==='add' ?  `${UPDATE_TAXONOMY}floor_activitiess`  : `${UPDATE_TAXONOMY}floor_activities/${this.currentFloor.id}` 
+      const url = this.action==='add' ?  `${UPDATE_TAXONOMY}floor_activities`  : `${UPDATE_TAXONOMY}floor_activities/${this.currentFloor.id}` 
 
       let formData = {...this.floorData};
-
+console.log(`${UPDATE_TAXONOMY}floor_activities/${this.currentFloor.id}`);
       request(`${url}`, {
         method: 'POST',
         body: JSON.stringify(formData),
@@ -188,9 +189,9 @@ export default {
       }
     },
     deleteFloor: function(id){
-      if (typeof this.currentFloor !== 'object' ) return ''
+      // if (typeof this.currentFloor !== 'object' ) return ''
       
-      request( `${UPDATE_TAXONOMY}${this.url}/${id}`, {
+      request( `${UPDATE_TAXONOMY}floor_activities/${id}`, {
           method: 'DELETE'
         }).then((res) => {              
             console.log(res)
@@ -230,11 +231,13 @@ export default {
   },
   computed:{
     selectedFloor(){
-      if (this.floors.length===0) return ''
+      if (this.floors.length === null) return 'Edit floor activity';
       if (this.currentFloor.id==='Select') return ''
-      
+      console.log(this.currentFloor.acf)
+
       const item = this.floors.find(a=>a.id === this.currentFloor.id)
       if (item) return item.acf.calculation
+
 
       return ''
     }
@@ -242,7 +245,8 @@ export default {
   watch: {
     currentFloor: function(val){
 
-      if (this.floors.length===0 || typeof this.currentFloor !== 'object') return ''
+      
+      if (this.floors.length=== null || typeof this.currentFloor !== 'object') return ''
       
       const item = this.floors.find(a=>a.id === val.id)
       if (item) {
