@@ -8,6 +8,24 @@
       <form id="floors-page" class="">
           <div class="row mb-3">
             <div class="col-3 text-l">
+              <label class="text-l">Level:</label>
+            </div>
+            <div class="col-9">
+                <!-- :default="'Edit floor activity'" -->
+              <custom-dropdown
+                :options="levels"
+                :default="selectedLevel"
+                class="select"
+                v-model="selected"
+                @onAdd="addLevel($event)"
+                @onDelete="confirmDeleteLevel($event)"         
+                @onEdit="editLevel($event)"
+              ></custom-dropdown>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-3 text-l">
               <label class="text-l">Floor Activity:</label>
             </div>
             <div class="col-9">
@@ -108,6 +126,12 @@ export default {
         name:'',
         calculation:''
       },
+      selected: null,
+      levels:[],
+      levelData: {
+        name:'',
+        description:''
+      },
       action: 'add',
       current_id: 0,
       showAddForm: false,
@@ -119,10 +143,20 @@ export default {
     }
   },
   mounted() {
-    this.fetchData()
+    this.fetchData();
+    this.fetchLevels();
   },
 
   methods: {
+    fetchLevels: function(){
+        request(`${GET_TAXONOMY}levels`, {
+          method: 'GET'
+        }).then((res) => {              
+            this.levels = res
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
     fetchData: function(){
         request(`${GET_TAXONOMY}floor_activities?per_page=99`, {
           method: 'GET'
@@ -140,7 +174,6 @@ export default {
       const url = this.action==='add' ?  `${UPDATE_TAXONOMY}floor_activities`  : `${UPDATE_TAXONOMY}floor_activities/${this.currentFloor.id}` 
 
       let formData = {...this.floorData};
-console.log(`${UPDATE_TAXONOMY}floor_activities/${this.currentFloor.id}`);
       request(`${url}`, {
         method: 'POST',
         body: JSON.stringify(formData),
@@ -156,6 +189,42 @@ console.log(`${UPDATE_TAXONOMY}floor_activities/${this.currentFloor.id}`);
       }).catch((err) => {
         console.log(err)
       })
+    },
+    saveLevel: function() {
+      const url = this.action==='add' ?  `${UPDATE_TAXONOMY}levels`  : `${UPDATE_TAXONOMY}levels/${this.id}`
+
+      let formData = {...this.levelData};
+
+      request(`${url}`, {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }).then((res) => {
+        console.log(res);        
+        this.fetchLevels();
+      }).catch((err) => {
+        console.log(err)
+      })
+    },
+    addLevel: function(e){
+      this.action = 'add';
+      this.levelData.name = e;
+      const findRoom = this.levels.find(a => a.name === this.levelData.name)
+      if (this.levelData.name !== '' && findRoom === undefined){
+        this.saveLevel();
+      }
+      
+    },
+    editLevel: function(e = null){
+      const name = e.value || this.selected.name;
+
+      this.action = 'edit';
+      this.levelData.name = name;
+      this.id = e.id;
+
+      this.saveLevel();
     },
     addFloor: function(e){
       this.action = 'add';
@@ -200,6 +269,18 @@ console.log(`${UPDATE_TAXONOMY}floor_activities/${this.currentFloor.id}`);
           console.log(err)
         })
     },
+    deleteLevel: function(id){
+      // if (typeof this.currentFloor !== 'object' ) return ''
+      
+      request( `${UPDATE_TAXONOMY}levels/${id}`, {
+          method: 'DELETE'
+        }).then((res) => {              
+            console.log(res)
+            this.fetchLevels()
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
     confirmDeleteFloor: function(e) {
 
       const currentFloorId = e;
@@ -227,6 +308,33 @@ console.log(`${UPDATE_TAXONOMY}floor_activities/${this.currentFloor.id}`);
         }
       )
     },
+    confirmDeleteLevel: function(e) {
+
+      const currentLevelId = e;
+      const findLevel = this.levels.find(a => a.id === e);
+      const currLevelName = findLevel.name;
+
+      // if (this.currentFloor.id === null) return;
+
+       this.$confirm(
+        {
+          message: `Are you sure you want to delete ${currLevelName}?`,
+          button: {
+            no: 'No',
+            yes: 'Yes'
+          },
+          /**
+          * Callback Function
+          * @param {Boolean} confirm 
+          */
+          callback: confirm => {
+            if (confirm) {
+              this.deleteLevel(currentLevelId)
+            }
+          }
+        }
+      )
+    },
 
   },
   computed:{
@@ -240,7 +348,10 @@ console.log(`${UPDATE_TAXONOMY}floor_activities/${this.currentFloor.id}`);
 
 
       return ''
-    }
+    },
+    selectedLevel() {
+       return this.currentProposalLevel?.level?.name || "Select level here"
+    },
   },
   watch: {
     currentFloor: function(val){
