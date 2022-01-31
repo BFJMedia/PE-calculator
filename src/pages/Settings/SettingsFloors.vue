@@ -20,6 +20,7 @@
                 @onAdd="addLevel($event)"
                 @onDelete="confirmDeleteLevel($event)"         
                 @onEdit="editLevel($event)"
+                @onSelect="selectLevel()"
               ></custom-dropdown>
             </div>
           </div>
@@ -112,6 +113,8 @@ import request from '@/helpers/fetchWrapper'
 import { GET_TAXONOMY, UPDATE_TAXONOMY } from '@/utils/const'
 import CustomDropdown from '../../components/common/CustomDropdown.vue';
 
+import { mapGetters, mapState } from 'vuex'
+
 export default {
   name: 'SettingsFloors',
   components: {
@@ -151,7 +154,8 @@ export default {
     fetchLevels: function(){
         request(`${GET_TAXONOMY}levels`, {
           method: 'GET'
-        }).then((res) => {              
+        }).then((res) => {  
+          console.log(res)            
             this.levels = res
         }).catch((err) => {
           console.log(err)
@@ -222,6 +226,15 @@ export default {
 
       this.action = 'edit';
       this.levelData.name = name;
+      this.id = e.id;
+
+      this.saveLevel();
+    },
+    selectLevel: function(e = null){
+      //const name = e.value || this.selected.name;
+
+      this.action = 'select';
+      this.levelData.description = 'selected';
       this.id = e.id;
 
       this.saveLevel();
@@ -349,10 +362,32 @@ export default {
 
       return ''
     },
+    currentProposal () {
+      return this.$store.state.currentProposal;
+    },
+    propoosal () {
+      return this.$store.state.currentProposal;
+    },
+    globalLevels () {
+      return this.$store.state.levels;
+    },
+    currentProposalLevel () {
+      return this.$store.state.currentProposalLevel;
+    },
     selectedLevel() {
        return this.currentProposalLevel?.level?.name || "Select level here"
     },
+    ...mapGetters([
+      'currentProposalLevelIndex',
+      'currentProposalRoomIndex',
+
+    ]),
+    ...mapState([
+      'floor_activities',
+
+    ]),
   },
+  
   watch: {
     currentFloor: function(val){
 

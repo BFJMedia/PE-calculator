@@ -48,6 +48,28 @@ export default {
   mounted() {
     this.fetchRooms()
   },
+  // computed: {
+  //   currentProposal () {
+  //     return this.$store.state.currentProposal;
+  //   },
+  //   propoosal () {
+  //     return this.$store.state.currentProposal;
+  //   },
+  //   globalLevels () {
+  //     return this.$store.state.levels;
+  //   },
+  //   currentProposalLevel () {
+  //     return this.$store.state.currentProposalLevel;
+  //   },
+  //   selectedLevel() {
+  //      return this.currentProposalLevel?.level?.name || "Select level here"
+  //   },
+  //   ...mapGetters([
+  //     'currentProposalLevelIndex',
+  //     'currentProposalRoomIndex',
+
+  //   ]),
+  // },
   data() {
     return {
       showAddRoom: false,
@@ -157,7 +179,7 @@ export default {
       request( `${UPDATE_TAXONOMY}rooms/${id}`, {
           method: 'DELETE'
         }).then((res) => {              
-            console.log(res)
+            console.log(`${UPDATE_TAXONOMY}rooms/${id}`)
             this.fetchRooms()
         }).catch((err) => {
           console.log(err)

@@ -580,7 +580,7 @@ export default {
     }
   }
   #switch:checked + .switch-label {
-    background: $secondary-color;
+    background: $primary-color;
   }
   #switch:checked + .switch-label:after {
     left: calc(100% - 5px);

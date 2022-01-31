@@ -16,6 +16,12 @@ body, html {
   font-family: 'Nunito Sans', sans-serif;
 }
 
+select, input {
+  -webkit-appearance:none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
 /* .container {
   width: 100vw;
 } */
