@@ -15,6 +15,7 @@
                 name="floor-select"
                 class="floors-select block"
                 v-model="selectedRoomId"
+                @onSelect="clearFields()"
                 >
                 <option disabled selected >Select room </option>
                 <option v-for="(room, i) of rooms" :key="i+'-select-room'" :value="room.id">

@@ -45,7 +45,7 @@ export default {
     msg: String,
   },
   mounted() {
-    this.fetchRooms()
+    this.fetchPeriodicals()
   },
   data() {
     return {
@@ -58,7 +58,7 @@ export default {
       ],
       check_weeks: [],
       action: 'add',
-      rooms:[],
+      periodicals:[],
       selected: null,
       roomData: {
         name:'',
@@ -68,11 +68,11 @@ export default {
     };
   },
   methods: {
-    fetchRooms: function(){
+    fetchPeriodicals: function(){
         request(`${GET_TAXONOMY}periodicals?`, {
           method: 'GET'
         }).then((res) => {              
-            this.rooms = res
+            this.periodicals = res
         }).catch((err) => {
           console.log(err)
         })
@@ -93,6 +93,7 @@ export default {
         console.log(res);
         this.roomData.name = ''
         this.showAddRoom = false
+        this.fetchPeriodicals();
         this.$store.dispatch('getTaxonomy', {taxonomy: 'periodicals'});
       }).catch((err) => {
         console.log(err)
@@ -101,7 +102,7 @@ export default {
     confirmDeleteRoom: function(e) {
 
       const currentRoomId = e;
-      const findRoom = this.rooms.find(a => a.id === e);
+      const findRoom = this.periodicals.find(a => a.id === e);
       const currRoomName = findRoom.name;
 
       // if (this.selected === null) return
@@ -137,7 +138,7 @@ export default {
       // this.roomData.name = this.$refs.room_select.$data.searchText;
       this.roomData.name = e;
 
-      const findRoom = this.rooms.find(a => a.name === this.roomData.name)
+      const findRoom = this.periodicals.find(a => a.name === this.roomData.name)
       if (this.roomData.name !== '' && findRoom === undefined){
         this.saveData()
       }
@@ -154,11 +155,11 @@ export default {
     },
     deleteRoom: function(id){
       // if (this.selected === null) return
-      request( `${UPDATE_TAXONOMY}rooms/${id}`, {
+      request( `${UPDATE_TAXONOMY}periodicals/${id}`, {
           method: 'DELETE'
         }).then((res) => {              
             console.log(res)
-            this.fetchRooms()
+            this.fetchPeriodicals()
         }).catch((err) => {
           console.log(err)
         })
@@ -166,18 +167,14 @@ export default {
 
   },
   computed: {
-    ...mapState([
-      'periodicals',
-      'optionals',
-      'currentProposal',
-    ]),
+    
   }
 
 };
 </script>
 
 <style lang="scss" >
-  // settings-rooms
+  // settings-periodicals
   
   
 </style>

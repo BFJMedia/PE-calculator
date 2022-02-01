@@ -46,11 +46,10 @@ div input, div .pe-input {
 }
 
   .toasted-container.top-right {
-    top: 5% !important;
     right: 0 !important;
     display: flex;    
   }
     .action {
-      width: 10%;
+      width: auto;
     }
 </style>

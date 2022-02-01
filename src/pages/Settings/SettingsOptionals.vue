@@ -4,8 +4,8 @@
     <h2>Settings</h2>
   </div>
   <div class="content">
-    <div id="settings-rooms">
-      <form id="rooms-page">
+    <div id="settings-optionals">
+      <form id="optionals-page">
         <div class="row">
           
             <div class="col-3 text-l">
@@ -46,7 +46,7 @@ export default {
     msg: String,
   },
   mounted() {
-    this.fetchRooms()
+    this.fetchOptionals()
     
   },
   data() {
@@ -60,7 +60,7 @@ export default {
       ],
       check_weeks: [],
       action: 'add',
-      rooms:[],
+      optionals:[],
       selected: null,
       roomData: {
         name:'',
@@ -70,11 +70,11 @@ export default {
     };
   },
   methods: {
-    fetchRooms: function(){
+    fetchOptionals: function(){
         request(`${GET_TAXONOMY}optionals?`, {
           method: 'GET'
         }).then((res) => {              
-            this.rooms = res
+            this.optionals = res
         }).catch((err) => {
           console.log(err)
         })
@@ -95,7 +95,7 @@ export default {
         console.log(res);
         this.roomData.name = ''
         this.showAddRoom = false
-        this.fetchRooms();
+        this.fetchOptionals();
       }).catch((err) => {
         console.log(err)
       })
@@ -103,7 +103,7 @@ export default {
     confirmDeleteRoom: function(e) {
 
       const currentRoomId = e;
-      const findRoom = this.rooms.find(a => a.id === e);
+      const findRoom = this.optionals.find(a => a.id === e);
       const currRoomName = findRoom.name;
 
       // if (this.selected === null) return
@@ -139,7 +139,7 @@ export default {
       // this.roomData.name = this.$refs.room_select.$data.searchText;
       this.roomData.name = e;
 
-      const findRoom = this.rooms.find(a => a.name === this.roomData.name)
+      const findRoom = this.optionals.find(a => a.name === this.roomData.name)
       if (this.roomData.name !== '' && findRoom === undefined){
         this.saveData()
       }
@@ -156,11 +156,11 @@ export default {
     },
     deleteRoom: function(id){
       // if (this.selected === null) return
-      request( `${UPDATE_TAXONOMY}rooms/${id}`, {
+      request( `${UPDATE_TAXONOMY}optionals/${id}`, {
           method: 'DELETE'
         }).then((res) => {              
             console.log(res)
-            this.fetchRooms()
+            this.fetchOptionals()
         }).catch((err) => {
           console.log(err)
         })
@@ -168,17 +168,14 @@ export default {
 
   },
   computed: {
-    ...mapState([
-      'periodicals',
-      'optionals',
-    ]),
+    
   }
 
 };
 </script>
 
 <style lang="scss" >
-  // settings-rooms
+  // settings-optionals
   
   
 </style>
