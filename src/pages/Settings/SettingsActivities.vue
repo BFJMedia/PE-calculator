@@ -8,7 +8,7 @@
         <form id="floors-page">
           <div class="row">
             <div class="col-3 ">
-              <label class="pd-l-10">Room</label>
+              <label>Room</label>
             </div>
             <div class="col-9">
               <select
@@ -26,7 +26,7 @@
 
           <div class="row h-space">
             <div class="col-3 h-space">
-              <label class="pd-l-10">Activities</label>
+              <label>Activities</label>
             </div>
             <div class="col-9 h-space">
               <custom-dropdown
@@ -36,6 +36,7 @@
                 v-model="selectedActivity"
                 keyName="name"
                 keyValue="id"
+                @onDelete="confirmDeleteActivity($event)" 
                 @onAdd="addActivity($event)"
                 @onSelect="clearFields()"
               />
@@ -46,7 +47,7 @@
 
           <div class="row h-space">
             <div class="col-3 col-md-3 h-space">
-              <label class="pd-l-10">Pre-selected</label>
+              <label>Pre-selected</label>
             </div>
             <div class="col-9 h-space">
               <input
@@ -63,7 +64,7 @@
 
           <div class="row h-space">
             <div class="col-3 h-space">
-              <label class="pd-l-10">Time Taken</label>
+              <label>Time Taken</label>
             </div>
             <div class="col-9 h-space">
               <div class="flex-100 flex-row time-taken">
@@ -109,7 +110,7 @@
               <div class="days-grid">
                 <div class="grid-days">
                   <div class="days-title flex-100 flex-row">
-                    <label for="frequency" class="pd-l-10 text-l"
+                    <label for="frequency" class="text-l"
                       >Frequency</label
                     >
                   </div>
@@ -144,7 +145,7 @@
 
           <div class="row h-space">
             <div class="col-3 h-space">
-              <label for="frequency" class="weeks-label pd-l-10 text-l"
+              <label for="frequency" class="weeks-label text-l"
                 >Weeks</label
               >
             </div>
@@ -370,7 +371,44 @@ export default {
     },
     setupSettings: function(){
       this.settingsRooms = this.$store.state.settings.acf.rooms
-    }
+    },
+    deleteActivity: function(id){
+      // if (typeof this.currentFloor !== 'object' ) return ''
+      
+      request( `${UPDATE_TAXONOMY}activities/${id}`, {
+          method: 'DELETE'
+        }).then((res) => {              
+            console.log(res)
+            this.fetchActivities()
+        }).catch((err) => {
+          console.log(err)
+        })
+    },
+    confirmDeleteActivity: function(e) {
+
+      const currentActivityId = e;
+      // const findActivity = this.activity.find(a=> a.activity.term_id === this.selectedActivity.id ||  a.activity.id === this.selectedActivity.id);
+      // const currActivityName = findActivity.name;
+
+       this.$confirm(
+        {
+          message: `Are you sure you want to delete the activity?`, //${currActivityName}
+          button: {
+            no: 'No',
+            yes: 'Yes'
+          },
+          /**
+          * Callback Function
+          * @param {Boolean} confirm 
+          */
+          callback: confirm => {
+            if (confirm) {
+              this.deleteActivity(currentActivityId)
+            }
+          }
+        }
+      )
+    },
   },
   computed: {
     currentActivityInRoom: function(){
@@ -451,6 +489,7 @@ export default {
       this.subForm.time = currentActivity.time_to_perform_task.split(":")
 
     },
+    
     settings: {
       immediate: true,
       handler: function (){
@@ -552,6 +591,10 @@ export default {
     width: 0;
     visibility: hidden;
     margin: 0;
+    position: absolute;
+  }
+  .col-3.col-md-3.h-space label {
+      padding-right: 10px;
   }
   .switch-label {
     cursor: pointer;

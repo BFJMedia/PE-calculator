@@ -132,6 +132,9 @@ export default {
   .proposal-texts {
     font-size: 14px;
   }
+  .row.py-1.proposal-texts {
+      flex-wrap: nowrap;
+  }
   .flex-60 {
     text-align: center;
   }
