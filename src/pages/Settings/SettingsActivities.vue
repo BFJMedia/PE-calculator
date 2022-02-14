@@ -6,6 +6,42 @@
     <div class="content activities">
       <div id="settings-floors">
         <form id="floors-page">
+          <div class="row" v-if="subForm.pre_selected">
+            <div class="col-3 ">
+              <label>Proposal</label>
+            </div>
+            <div class="col-9">
+              <input
+                type="text"
+                required="required"
+                autofocus="autofocus"
+                placeholder=""
+                v-model="subForm.proposal"
+                class="act-ttpt act-hrs mr-3"
+                maxlength="2"
+                name="time"
+                @change="activityFieldUpdate"
+                v-if="subForm.pre_selected"
+              />
+            </div>
+          </div>
+          <div class="row h-space" v-if="subForm.pre_selected">
+            <div class="col-3 ">
+              <label>Current Level</label>
+            </div>
+            <div class="col-9">
+              <input
+                type="text"
+                required="required"
+                autofocus="autofocus"
+                placeholder=""
+                v-model="subForm.currentLevel"
+                class="act-ttpt act-hrs mr-3"
+                maxlength="2"
+                name="time"
+              />
+            </div>
+          </div>
           <div class="row">
             <div class="col-3 ">
               <label>Room</label>
@@ -43,6 +79,42 @@
               />
                 <!-- @onDelete="confirmDeleteRoom($event)"
                 @onEdit="editRoom($event)" -->
+            </div>
+          </div>
+          <div class="row h-space" v-if="subForm.pre_selected">
+            <div class="col-3 ">
+              <label>Text to appear as</label>
+            </div>
+            <div class="col-9">
+              <input
+                type="text"
+                required="required"
+                autofocus="autofocus"
+                placeholder=""
+                v-model="subForm.textToAppearAs"
+                class="act-ttpt act-hrs mr-3"
+                maxlength="2"
+                name="time"
+                @change="activityFieldUpdate"
+              />
+            </div>
+          </div>
+          <div class="row h-space" v-if="subForm.pre_selected">
+            <div class="col-3 ">
+              <label>Quantity</label>
+            </div>
+            <div class="col-9">
+              <input
+                type="number"
+                required="required"
+                autofocus="autofocus"
+                placeholder=""
+                v-model="subForm.quantity"
+                class="act-ttpt act-hrs mr-3"
+                maxlength="2"
+                name="time"
+                @change="activityFieldUpdate"
+              />
             </div>
           </div>
 
@@ -224,6 +296,10 @@ export default {
         time: ["", "", ""],
         frequency: [],
         weeks: [],
+        proposal: "",
+        currentLevel: "",
+        textToAppearAs: "",
+        quantity: "",
       },
       selectedRoomId: null,
       selectedRoom: null,
