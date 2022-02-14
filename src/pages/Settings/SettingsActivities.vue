@@ -18,8 +18,7 @@
                 placeholder=""
                 v-model="subForm.proposal"
                 class="act-ttpt act-hrs mr-3"
-                maxlength="2"
-                name="time"
+                name="proposal"
                 @change="activityFieldUpdate"
                 v-if="subForm.pre_selected"
               />
@@ -37,8 +36,7 @@
                 placeholder=""
                 v-model="subForm.currentLevel"
                 class="act-ttpt act-hrs mr-3"
-                maxlength="2"
-                name="time"
+                name="currentLevel"
               />
             </div>
           </div>
@@ -52,6 +50,7 @@
                 class="floors-select block"
                 v-model="selectedRoomId"
                 @onSelect="clearFields()"
+                :disabled="subForm.pre_selected"
                 >
                 <option disabled selected >Select room </option>
                 <option v-for="(room, i) of rooms" :key="i+'-select-room'" :value="room.id">
@@ -69,6 +68,7 @@
               <custom-dropdown
                 :options="activitiesDropdown"
                 :default="'Edit an activity'"
+                :selectedActivity="selectedActivity"
                 class="select"
                 v-model="selectedActivity"
                 keyName="name"
@@ -93,8 +93,7 @@
                 placeholder=""
                 v-model="subForm.textToAppearAs"
                 class="act-ttpt act-hrs mr-3"
-                maxlength="2"
-                name="time"
+                name="textToAppearAs"
                 @change="activityFieldUpdate"
               />
             </div>
@@ -111,8 +110,7 @@
                 placeholder=""
                 v-model="subForm.quantity"
                 class="act-ttpt act-hrs mr-3"
-                maxlength="2"
-                name="time"
+                name="quantity"
                 @change="activityFieldUpdate"
               />
             </div>

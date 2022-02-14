@@ -26,6 +26,10 @@ export default {
       required: false,
       default: "id",
     },
+    selectedActivity: {
+      type: Object,
+      required: false,
+    },
   },
   template: `
     <div class="custom-select" :tabindex="tabindex" @blur="onBlurOutside($event)">
@@ -90,7 +94,9 @@ export default {
   `,
   data: function () {
     return {
-      selected: this.default
+       selected: this.selectedActivity.name
+        ? this.selectedActivity.name
+        : this.default
         ? this.default
         : this.options.length > 0
         ? this.options[0]
