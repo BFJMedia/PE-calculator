@@ -6,40 +6,6 @@
     <div class="content activities">
       <div id="settings-floors">
         <form id="floors-page">
-          <div class="row" v-if="subForm.pre_selected">
-            <div class="col-3 ">
-              <label>Proposal</label>
-            </div>
-            <div class="col-9">
-              <input
-                type="text"
-                required="required"
-                autofocus="autofocus"
-                placeholder=""
-                v-model="subForm.proposal"
-                class="act-ttpt act-hrs mr-3"
-                name="proposal"
-                @change="activityFieldUpdate"
-                v-if="subForm.pre_selected"
-              />
-            </div>
-          </div>
-          <div class="row h-space" v-if="subForm.pre_selected">
-            <div class="col-3 ">
-              <label>Current Level</label>
-            </div>
-            <div class="col-9">
-              <input
-                type="text"
-                required="required"
-                autofocus="autofocus"
-                placeholder=""
-                v-model="subForm.currentLevel"
-                class="act-ttpt act-hrs mr-3"
-                name="currentLevel"
-              />
-            </div>
-          </div>
           <div class="row">
             <div class="col-3 ">
               <label>Room</label>
@@ -50,7 +16,6 @@
                 class="floors-select block"
                 v-model="selectedRoomId"
                 @onSelect="clearFields()"
-                :disabled="subForm.pre_selected"
                 >
                 <option disabled selected >Select room </option>
                 <option v-for="(room, i) of rooms" :key="i+'-select-room'" :value="room.id">
@@ -79,40 +44,6 @@
               />
                 <!-- @onDelete="confirmDeleteRoom($event)"
                 @onEdit="editRoom($event)" -->
-            </div>
-          </div>
-          <div class="row h-space" v-if="subForm.pre_selected">
-            <div class="col-3 ">
-              <label>Text to appear as</label>
-            </div>
-            <div class="col-9">
-              <input
-                type="text"
-                required="required"
-                autofocus="autofocus"
-                placeholder=""
-                v-model="subForm.textToAppearAs"
-                class="act-ttpt act-hrs mr-3"
-                name="textToAppearAs"
-                @change="activityFieldUpdate"
-              />
-            </div>
-          </div>
-          <div class="row h-space" v-if="subForm.pre_selected">
-            <div class="col-3 ">
-              <label>Quantity</label>
-            </div>
-            <div class="col-9">
-              <input
-                type="number"
-                required="required"
-                autofocus="autofocus"
-                placeholder=""
-                v-model="subForm.quantity"
-                class="act-ttpt act-hrs mr-3"
-                name="quantity"
-                @change="activityFieldUpdate"
-              />
             </div>
           </div>
 
@@ -262,11 +193,6 @@ export default {
   components: {
     CustomDropdown,
   },
-  mounted() {
-    this.fetchRooms();
-    //this.fetchSettings();
-    this.fetchActivities();
-  },
   data() {
     return {
       days_options: [
@@ -294,10 +220,6 @@ export default {
         time: ["", "", ""],
         frequency: [],
         weeks: [],
-        proposal: "",
-        currentLevel: "",
-        textToAppearAs: "",
-        quantity: "",
       },
       selectedRoomId: null,
       selectedRoom: null,
@@ -305,6 +227,11 @@ export default {
       activeRoom:"",
       settingsRooms:[]
     };
+  },
+  mounted() {
+    this.fetchRooms();
+    //this.fetchSettings();
+    this.fetchActivities();
   },
   methods: {
     fetchSettings: function () {
@@ -423,6 +350,17 @@ export default {
         this.updateActivity();
       }
 
+      localStorage.setItem('selectedRoomId', JSON.stringify(this.selectedRoomId));
+      localStorage.setItem('selectedRoom', JSON.stringify(this.selectedRoom));
+      localStorage.setItem('selectedActivity', JSON.stringify(this.selectedActivity));
+      localStorage.setItem('subForm', JSON.stringify(this.subForm));
+
+      if (!this.subForm.pre_selected) {
+        localStorage.removeItem('selectedRoomId');
+        localStorage.removeItem('selectedRoom');
+        localStorage.removeItem('selectedActivity');
+        localStorage.removeItem('subForm');
+      }
     },
     daysUpdate: function(){
       // get the activity from the room activities
@@ -564,6 +502,7 @@ export default {
       this.subForm.time = currentActivity.time_to_perform_task.split(":")
 
     },
+    subForm: 'activityFieldUpdate',
     
     settings: {
       immediate: true,

@@ -155,7 +155,18 @@ export default {
   },
 
   mounted() {
-    
+    if (JSON.parse(localStorage.getItem('selectedRoomId')) === this.currentRoom.room_name.term_taxonomy_id) {
+      if (localStorage.getItem('selectedActivity')) {
+        this.selectedActivity = JSON.parse(localStorage.getItem('selectedActivity'));
+      }
+
+      if (localStorage.getItem('subForm')) {
+        this.formData.fields.weeks = JSON.parse(localStorage.getItem('subForm')).weeks;
+        this.formData.fields.time_array = JSON.parse(localStorage.getItem('subForm')).time;
+        this.formData.fields.frequency = JSON.parse(localStorage.getItem('subForm')).frequency;
+      }
+    }
+
     if (this.currentActivity === null ) return;
 
     this.formData.fields = {...this.currentActivity}
@@ -273,7 +284,13 @@ export default {
       return this.currentProposal.id
     },
     selectedActivityText () {
-      return this.currentActivity?.activity?.name || 'Edit an activity'
+      let result = 'Edit an activity';
+      if (JSON.parse(localStorage.getItem('selectedRoomId')) === this.currentRoom.room_name.term_taxonomy_id && JSON.parse(localStorage.getItem('selectedActivity'))) {
+        result = JSON.parse(localStorage.getItem('selectedActivity'))?.name;
+      } else if (this.currentActivity?.activity?.name) {
+        result = this.currentActivity?.activity?.name
+      }
+      return result;
     },
     ...mapState([
       'currentRoom',
